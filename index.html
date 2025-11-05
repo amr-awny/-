@@ -447,7 +447,7 @@
             <h3>كيفية استخدام الأداة:</h3>
             <ol>
                 <li>أدخل التوكن الخاص بك من Discord (إعدادات → Advanced → Developer Mode)</li>
-                <li>اضغط على "حفظ التوكن في ملف" لحفظه محلياً</li>
+                <li>اضغط على "حفظ التوكن في المتصفح" لحفظه محلياً</li>
                 <li>أدخل أيدي السيرفر المصدر والسيرفر الهدف (Enable Developer Mode → Right-click on server → Copy ID)</li>
                 <li>اضغط على "الاتصال بالسيرفرات وعرض العناصر"</li>
                 <li>اختر العناصر التي تريد نسخها</li>
@@ -472,10 +472,10 @@
                 <input type="password" id="userToken" placeholder="أدخل التوكن الشخصي الخاص بك">
                 <div class="token-actions">
                     <button onclick="saveToken()" class="button-success">
-                        <i class="fas fa-save"></i> حفظ التوكن في ملف
+                        <i class="fas fa-save"></i> حفظ التوكن في المتصفح
                     </button>
                     <button onclick="loadToken()" class="button-secondary">
-                        <i class="fas fa-download"></i> تحميل من الملف
+                        <i class="fas fa-download"></i> تحميل من المتصفح
                     </button>
                     <button onclick="deleteToken()" class="button-danger">
                         <i class="fas fa-trash"></i> حذف المحفوظ
@@ -596,11 +596,11 @@
 
     <script>
         // ==============================================
-        // نظام حفظ التوكنات في ملف على السيرفر
+        // نظام حفظ التوكنات في LocalStorage
         // ==============================================
         
-        // حفظ التوكن في ملف tokens.json على السيرفر
-        async function saveToken() {
+        // حفظ التوكن في LocalStorage
+        function saveToken() {
             const token = document.getElementById('userToken').value.trim();
             
             if (!token) {
@@ -609,79 +609,49 @@
             }
             
             try {
-                const response = await fetch('/api/tokens', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ token })
-                });
+                const tokenData = {
+                    token: token,
+                    savedAt: new Date().toISOString()
+                };
                 
-                const data = await response.json();
-                
-                if (response.ok) {
-                    addLog('✓ تم حفظ التوكن بنجاح في ملف tokens.json', 'success');
-                } else {
-                    addLog('خطأ في حفظ التوكن: ' + data.error, 'error');
-                }
+                localStorage.setItem('discordToken', JSON.stringify(tokenData));
+                addLog('✓ تم حفظ التوكن بنجاح في المتصفح', 'success');
             } catch (error) {
                 addLog('خطأ في حفظ التوكن: ' + error.message, 'error');
             }
         }
         
-        // تحميل التوكن من ملف tokens.json على السيرفر
-        async function loadToken() {
+        // تحميل التوكن من LocalStorage
+        function loadToken() {
             try {
-                const response = await fetch('/api/tokens');
-                const data = await response.json();
-                
-                if (response.ok && data.tokens && data.tokens.length > 0) {
-                    const latestToken = data.tokens[data.tokens.length - 1];
-                    document.getElementById('userToken').value = latestToken.token;
-                    const savedDate = new Date(latestToken.savedAt).toLocaleString('ar-SA');
+                const savedToken = localStorage.getItem('discordToken');
+                if (savedToken) {
+                    const tokenData = JSON.parse(savedToken);
+                    document.getElementById('userToken').value = tokenData.token;
+                    const savedDate = new Date(tokenData.savedAt).toLocaleString('ar-SA');
                     addLog(`✓ تم تحميل التوكن المحفوظ من ${savedDate}`, 'success');
                 } else {
-                    addLog('لا يوجد توكنات محفوظة', 'warning');
+                    addLog('لا يوجد توكن محفوظ', 'warning');
                 }
             } catch (error) {
                 addLog('خطأ في تحميل التوكن: ' + error.message, 'error');
             }
         }
         
-        // حذف جميع التوكنات المحفوظة من الملف
-        async function deleteToken() {
+        // حذف التوكن المحفوظ
+        function deleteToken() {
             try {
-                const response = await fetch('/api/tokens', {
-                    method: 'DELETE'
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    document.getElementById('userToken').value = '';
-                    addLog('✓ تم حذف جميع التوكنات المحفوظة', 'success');
-                } else {
-                    addLog('خطأ في حذف التوكنات: ' + data.error, 'error');
-                }
+                localStorage.removeItem('discordToken');
+                document.getElementById('userToken').value = '';
+                addLog('✓ تم حذف التوكن المحفوظ', 'success');
             } catch (error) {
-                addLog('خطأ في حذف التوكنات: ' + error.message, 'error');
+                addLog('خطأ في حذف التوكن: ' + error.message, 'error');
             }
         }
         
         // تحميل تلقائي للتوكن عند فتح الصفحة
-        window.addEventListener('load', async function() {
-            try {
-                const response = await fetch('/api/tokens');
-                const data = await response.json();
-                
-                if (response.ok && data.tokens && data.tokens.length > 0) {
-                    const latestToken = data.tokens[data.tokens.length - 1];
-                    document.getElementById('userToken').value = latestToken.token;
-                    addLog('تم تحميل التوكن المحفوظ تلقائياً', 'info');
-                }
-            } catch (error) {
-                console.error('Error loading saved token:', error);
-            }
+        window.addEventListener('load', function() {
+            loadToken();
         });
 
         // ==============================================
@@ -938,17 +908,17 @@
 
                 // نسخ الرولات
                 if (allRoles.length > 0) {
-                    await copyRoles(userToken, sourceGuildId, targetGuildId, allRoles);
+                    await copyRoles(sourceGuildId, targetGuildId, allRoles);
                 }
 
                 // نسخ الكاتجوريهات
                 if (allCategories.length > 0) {
-                    await copyCategories(userToken, sourceGuildId, targetGuildId, allCategories);
+                    await copyCategories(sourceGuildId, targetGuildId, allCategories);
                 }
 
                 // نسخ التشانلات
                 if (allChannels.length > 0) {
-                    await copyChannels(userToken, sourceGuildId, targetGuildId, allChannels);
+                    await copyChannels(sourceGuildId, targetGuildId, allChannels);
                 }
 
                 updateProgress(100);
@@ -963,7 +933,7 @@
         }
 
         // نسخ الرولات
-        async function copyRoles(token, sourceGuildId, targetGuildId, roleIds) {
+        async function copyRoles(sourceGuildId, targetGuildId, roleIds) {
             try {
                 const rolesToCopy = roles.filter(role => roleIds.includes(role.id));
                 rolesToCopy.sort((a, b) => a.position - b.position);
@@ -999,7 +969,7 @@
         }
 
         // نسخ الكاتجوريهات
-        async function copyCategories(token, sourceGuildId, targetGuildId, categoryIds) {
+        async function copyCategories(sourceGuildId, targetGuildId, categoryIds) {
             try {
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 const categoriesToCopy = allChannels.filter(channel => 
@@ -1041,7 +1011,7 @@
         }
 
         // نسخ التشانلات
-        async function copyChannels(token, sourceGuildId, targetGuildId, channelIds) {
+        async function copyChannels(sourceGuildId, targetGuildId, channelIds) {
             try {
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 const channelsToCopy = allChannels.filter(channel => 
@@ -1114,4 +1084,3 @@
     </script>
 </body>
 </html>
-
