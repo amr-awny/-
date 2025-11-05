@@ -596,13 +596,11 @@
 
     <script>
         // ==============================================
-        // نظام حفظ التوكنات في ملف محلي
+        // نظام حفظ التوكنات في ملف على السيرفر
         // ==============================================
         
-        const STORAGE_KEY = 'discord_token_data';
-        
-        // حفظ التوكن في localStorage
-        function saveToken() {
+        // حفظ التوكن في ملف tokens.json على السيرفر
+        async function saveToken() {
             const token = document.getElementById('userToken').value.trim();
             
             if (!token) {
@@ -611,81 +609,74 @@
             }
             
             try {
-                // حفظ التوكن في localStorage
-                const data = {
-                    token: token,
-                    savedAt: new Date().toISOString()
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                const response = await fetch('/api/tokens', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token })
+                });
                 
-                // تحميل الملف للمستخدم
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'discord-token.json';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                const data = await response.json();
                 
-                addLog('✓ تم حفظ التوكن بنجاح في الملف وفي المتصفح', 'success');
+                if (response.ok) {
+                    addLog('✓ تم حفظ التوكن بنجاح في ملف tokens.json', 'success');
+                } else {
+                    addLog('خطأ في حفظ التوكن: ' + data.error, 'error');
+                }
             } catch (error) {
                 addLog('خطأ في حفظ التوكن: ' + error.message, 'error');
             }
         }
         
-        // تحميل التوكن من localStorage أو من ملف
-        function loadToken() {
+        // تحميل التوكن من ملف tokens.json على السيرفر
+        async function loadToken() {
             try {
-                // محاولة التحميل من localStorage أولاً
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    document.getElementById('userToken').value = data.token;
-                    const savedDate = new Date(data.savedAt).toLocaleString('ar-SA');
-                    addLog(`✓ تم تحميل التوكن المحفوظ من ${savedDate}`, 'success');
-                    return;
-                }
+                const response = await fetch('/api/tokens');
+                const data = await response.json();
                 
-                // إذا لم يكن موجود، السماح برفع ملف
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.onchange = async (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const text = await file.text();
-                        const data = JSON.parse(text);
-                        document.getElementById('userToken').value = data.token;
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                        addLog('✓ تم تحميل التوكن من الملف بنجاح', 'success');
-                    }
-                };
-                input.click();
+                if (response.ok && data.tokens && data.tokens.length > 0) {
+                    const latestToken = data.tokens[data.tokens.length - 1];
+                    document.getElementById('userToken').value = latestToken.token;
+                    const savedDate = new Date(latestToken.savedAt).toLocaleString('ar-SA');
+                    addLog(`✓ تم تحميل التوكن المحفوظ من ${savedDate}`, 'success');
+                } else {
+                    addLog('لا يوجد توكنات محفوظة', 'warning');
+                }
             } catch (error) {
                 addLog('خطأ في تحميل التوكن: ' + error.message, 'error');
             }
         }
         
-        // حذف التوكن المحفوظ
-        function deleteToken() {
+        // حذف جميع التوكنات المحفوظة من الملف
+        async function deleteToken() {
             try {
-                localStorage.removeItem(STORAGE_KEY);
-                document.getElementById('userToken').value = '';
-                addLog('✓ تم حذف التوكن المحفوظ', 'success');
+                const response = await fetch('/api/tokens', {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('userToken').value = '';
+                    addLog('✓ تم حذف جميع التوكنات المحفوظة', 'success');
+                } else {
+                    addLog('خطأ في حذف التوكنات: ' + data.error, 'error');
+                }
             } catch (error) {
-                addLog('خطأ في حذف التوكن: ' + error.message, 'error');
+                addLog('خطأ في حذف التوكنات: ' + error.message, 'error');
             }
         }
         
         // تحميل تلقائي للتوكن عند فتح الصفحة
-        window.addEventListener('load', function() {
+        window.addEventListener('load', async function() {
             try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    document.getElementById('userToken').value = data.token;
+                const response = await fetch('/api/tokens');
+                const data = await response.json();
+                
+                if (response.ok && data.tokens && data.tokens.length > 0) {
+                    const latestToken = data.tokens[data.tokens.length - 1];
+                    document.getElementById('userToken').value = latestToken.token;
                     addLog('تم تحميل التوكن المحفوظ تلقائياً', 'info');
                 }
             } catch (error) {
