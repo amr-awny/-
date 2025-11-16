@@ -240,29 +240,6 @@
             color: white;
         }
 
-        .button-success {
-            background: linear-gradient(to right, var(--success-color), #45a049);
-            color: white;
-        }
-
-        .button-secondary {
-            background: linear-gradient(to right, #555, #777);
-            color: white;
-        }
-
-        .token-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .token-actions button {
-            flex: 1;
-            margin: 0;
-            padding: 8px 12px;
-            font-size: 14px;
-        }
-
         .items-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -429,10 +406,6 @@
             .items-container {
                 grid-template-columns: 1fr;
             }
-
-            .token-actions {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
@@ -447,7 +420,6 @@
             <h3>كيفية استخدام الأداة:</h3>
             <ol>
                 <li>أدخل التوكن الخاص بك من Discord (إعدادات → Advanced → Developer Mode)</li>
-                <li>اضغط على "حفظ التوكن في ملف" لحفظه محلياً</li>
                 <li>أدخل أيدي السيرفر المصدر والسيرفر الهدف (Enable Developer Mode → Right-click on server → Copy ID)</li>
                 <li>اضغط على "الاتصال بالسيرفرات وعرض العناصر"</li>
                 <li>اختر العناصر التي تريد نسخها</li>
@@ -457,7 +429,7 @@
 
         <div class="discord-link">
             <span>رابط سرفرنا على الديسكورد: </span>
-            <a href="https://discord.gg/JGAnr5zu" target="_blank">https://discord.gg/JGAnr5zu</a>
+            <a href="https://discord.gg/G36YqGstWR" target="_blank">https://discord.gg/JGAnr5zu</a>
         </div>
 
         <div class="warning-box">
@@ -470,17 +442,6 @@
             <div class="input-group">
                 <label for="userToken">التوكن الشخصي</label>
                 <input type="password" id="userToken" placeholder="أدخل التوكن الشخصي الخاص بك">
-                <div class="token-actions">
-                    <button onclick="saveToken()" class="button-success">
-                        <i class="fas fa-save"></i> حفظ التوكن في ملف
-                    </button>
-                    <button onclick="loadToken()" class="button-secondary">
-                        <i class="fas fa-download"></i> تحميل من الملف
-                    </button>
-                    <button onclick="deleteToken()" class="button-danger">
-                        <i class="fas fa-trash"></i> حذف المحفوظ
-                    </button>
-                </div>
             </div>
             <div class="input-group">
                 <label for="sourceGuildId">أيدي السيرفر المصدر</label>
@@ -590,113 +551,11 @@
         </div>
 
         <div class="copyright">
-            © 2024 جميع الحقوق محفوظة
+            © 2023 جميع الحقوق محفوظة @elbragely
         </div>
     </div>
 
     <script>
-        // ==============================================
-        // نظام حفظ التوكنات في ملف محلي
-        // ==============================================
-        
-        const STORAGE_KEY = 'discord_token_data';
-        
-        // حفظ التوكن في localStorage
-        function saveToken() {
-            const token = document.getElementById('userToken').value.trim();
-            
-            if (!token) {
-                addLog('خطأ: الرجاء إدخال التوكن أولاً', 'error');
-                return;
-            }
-            
-            try {
-                // حفظ التوكن في localStorage
-                const data = {
-                    token: token,
-                    savedAt: new Date().toISOString()
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                
-                // تحميل الملف للمستخدم
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'discord-token.json';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                addLog('✓ تم حفظ التوكن بنجاح في الملف وفي المتصفح', 'success');
-            } catch (error) {
-                addLog('خطأ في حفظ التوكن: ' + error.message, 'error');
-            }
-        }
-        
-        // تحميل التوكن من localStorage أو من ملف
-        function loadToken() {
-            try {
-                // محاولة التحميل من localStorage أولاً
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    document.getElementById('userToken').value = data.token;
-                    const savedDate = new Date(data.savedAt).toLocaleString('ar-SA');
-                    addLog(`✓ تم تحميل التوكن المحفوظ من ${savedDate}`, 'success');
-                    return;
-                }
-                
-                // إذا لم يكن موجود، السماح برفع ملف
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.onchange = async (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const text = await file.text();
-                        const data = JSON.parse(text);
-                        document.getElementById('userToken').value = data.token;
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-                        addLog('✓ تم تحميل التوكن من الملف بنجاح', 'success');
-                    }
-                };
-                input.click();
-            } catch (error) {
-                addLog('خطأ في تحميل التوكن: ' + error.message, 'error');
-            }
-        }
-        
-        // حذف التوكن المحفوظ
-        function deleteToken() {
-            try {
-                localStorage.removeItem(STORAGE_KEY);
-                document.getElementById('userToken').value = '';
-                addLog('✓ تم حذف التوكن المحفوظ', 'success');
-            } catch (error) {
-                addLog('خطأ في حذف التوكن: ' + error.message, 'error');
-            }
-        }
-        
-        // تحميل تلقائي للتوكن عند فتح الصفحة
-        window.addEventListener('load', function() {
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    document.getElementById('userToken').value = data.token;
-                    addLog('تم تحميل التوكن المحفوظ تلقائياً', 'info');
-                }
-            } catch (error) {
-                console.error('Error loading saved token:', error);
-            }
-        });
-
-        // ==============================================
-        // باقي الكود الأصلي
-        // ==============================================
-        
         // متغيرات لتخزين البيانات
         let categories = [];
         let channels = [];
@@ -798,24 +657,29 @@
                     'Content-Type': 'application/json'
                 }
             };
-
-            const finalOptions = {
-                ...defaultOptions,
-                ...options,
-                headers: {
-                    ...defaultOptions.headers,
-                    ...options.headers
-                }
-            };
-
-            const response = await fetch(url, finalOptions);
             
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`خطأ في الطلب: ${response.status} - ${errorText}`);
+            const mergedOptions = { ...defaultOptions, ...options };
+            
+            try {
+                const response = await fetch(url, mergedOptions);
+                
+                if (response.status === 429) {
+                    // التعامل مع التقييد
+                    const retryAfter = response.headers.get('Retry-After') || 1;
+                    addLog(`تم التقييد، جاري الانتظار ${retryAfter} ثانية...`, 'warning');
+                    await delay(retryAfter * 1000);
+                    return discordRequest(url, options);
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`خطأ في الطلب: ${response.status} ${response.statusText}`);
+                }
+                
+                return response.json();
+            } catch (error) {
+                addLog(`فشل في الطلب إلى ${url}: ${error.message}`, 'error');
+                throw error;
             }
-
-            return await response.json();
         }
 
         // الاتصال بالسيرفرات وجلب البيانات
@@ -825,181 +689,283 @@
             targetGuildId = document.getElementById('targetGuildId').value;
 
             if (!userToken || !sourceGuildId || !targetGuildId) {
-                addLog('خطأ: يجب ملء جميع الحقول المطلوبة', 'error');
+                addLog('يرجى ملء جميع الحقول المطلوبة', 'error');
                 return;
             }
 
-            document.getElementById('connectBtn').disabled = true;
-            addLog('جاري الاتصال بالسيرفر المصدر...', 'info');
+            addLog('جاري الاتصال بالسيرفرات...', 'info');
+            updateProgress(10);
 
             try {
-                // الحصول على الرولات
-                addLog('جاري جلب الرولات...', 'info');
-                roles = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
-                addLog(`تم جلب ${roles.length} رول`, 'success');
-                displayRoles();
+                // جلب معلومات السيرفرات
+                const response = await fetch('https://discord.com/api/v9/users/@me/guilds', {
+                    headers: {
+                        'Authorization': userToken
+                    }
+                });
 
-                // الحصول على التشانلات والكاتجوريهات
-                addLog('جاري جلب التشانلات والكاتجوريهات...', 'info');
-                const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
-                
-                categories = allChannels.filter(ch => ch.type === 4);
-                channels = allChannels.filter(ch => ch.type !== 4);
-                
-                addLog(`تم جلب ${categories.length} كاتجوري و ${channels.length} تشانل`, 'success');
-                
-                displayCategories();
-                displayChannels();
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('التوكن غير صالح أو منتهي الصلاحية');
+                    } else if (response.status === 403) {
+                        throw new Error('لا تملك الصلاحيات اللازمة للوصول إلى هذا السيرفر');
+                    } else {
+                        throw new Error(`فشل في الاتصال بـ Discord API (${response.status})`);
+                    }
+                }
 
+                userGuilds = await response.json();
+                
+                // التحقق من وجود السيرفرات
+                const sourceGuild = userGuilds.find(g => g.id === sourceGuildId);
+                const targetGuild = userGuilds.find(g => g.id === targetGuildId);
+
+                if (!sourceGuild) {
+                    addLog('لم يتم العثور على السيرفر المصدر أو لا تملك الصلاحيات اللازمة', 'error');
+                    return;
+                }
+
+                if (!targetGuild) {
+                    addLog('لم يتم العثور على السيرفر الهدف أو لا تملك الصلاحيات اللازمة', 'error');
+                    return;
+                }
+
+                addLog(`تم الاتصال بالسيرفر المصدر: ${sourceGuild.name}`, 'success');
+                addLog(`تم الاتصال بالسيرفر الهدف: ${targetGuild.name}`, 'success');
+
+                // جلب البيانات من السيرفر المصدر
+                addLog('جاري جلب البيانات من السيرفر المصدر...', 'info');
+                
+                // جلب الرولات
+                const rolesResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
+                roles = rolesResponse;
+                displayItems('roles', roles.filter(role => role.name !== '@everyone'));
+                addLog(`تم جلب ${roles.length} دور من السيرفر المصدر`, 'success');
+                
+                // جلب التشانلات
+                const channelsResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
+                channels = channelsResponse;
+                
+                // فصل الكاتجوريهات عن التشانلات
+                categories = channels.filter(ch => ch.type === 4);
+                channels = channels.filter(ch => ch.type !== 4);
+                
+                displayItems('categories', categories);
+                displayItems('channels', channels);
+                
+                addLog(`تم جلب ${categories.length} كاتجوري و ${channels.length} تشانل من السيرفر المصدر`, 'success');
+
+                // تفعيل زر البدء
                 document.getElementById('copyBtn').disabled = false;
-                addLog('تم الاتصال بنجاح! يمكنك الآن اختيار العناصر المطلوبة', 'success');
+                document.getElementById('stopBtn').disabled = false;
+                updateProgress(30);
+
             } catch (error) {
-                addLog('خطأ: ' + error.message, 'error');
-                document.getElementById('connectBtn').disabled = false;
+                addLog(`خطأ في الاتصال: ${error.message}`, 'error');
+                console.error('تفاصيل الخطأ:', error);
             }
         }
 
-        // عرض الرولات
-        function displayRoles() {
-            const rolesList = document.getElementById('rolesList');
-            rolesList.innerHTML = '';
+        // عرض العناصر في القوائم
+        function displayItems(type, items) {
+            const container = document.getElementById(`${type}List`);
+            container.innerHTML = '';
             
-            roles.forEach(role => {
-                if (role.name === '@everyone') return;
-                
-                const roleDiv = document.createElement('div');
-                roleDiv.classList.add('item-entry');
-                roleDiv.innerHTML = `
-                    <input type="checkbox" id="role_${role.id}" value="${role.id}">
-                    <label for="role_${role.id}" class="item-name">
-                        <span>${role.name}</span>
-                        <span class="item-id">(${role.id})</span>
-                    </label>
+            if (items.length === 0) {
+                container.innerHTML = '<p>لا توجد عناصر من هذا النوع</p>';
+                return;
+            }
+            
+            items.forEach(item => {
+                const itemEntry = document.createElement('div');
+                itemEntry.className = 'item-entry';
+                itemEntry.innerHTML = `
+                    <span class="item-id">${item.id}</span>
+                    <span class="item-name">${item.name}</span>
+                    <input type="checkbox" name="${type}" value="${item.id}" checked>
                 `;
-                rolesList.appendChild(roleDiv);
+                container.appendChild(itemEntry);
             });
         }
 
-        // عرض الكاتجوريهات
-        function displayCategories() {
-            const categoriesList = document.getElementById('categoriesList');
-            categoriesList.innerHTML = '';
-            
-            categories.forEach(category => {
-                const catDiv = document.createElement('div');
-                catDiv.classList.add('item-entry');
-                catDiv.innerHTML = `
-                    <input type="checkbox" id="category_${category.id}" value="${category.id}">
-                    <label for="category_${category.id}" class="item-name">
-                        <span>${category.name}</span>
-                        <span class="item-id">(${category.id})</span>
-                    </label>
-                `;
-                categoriesList.appendChild(catDiv);
-            });
-        }
-
-        // عرض التشانلات
-        function displayChannels() {
-            const channelsList = document.getElementById('channelsList');
-            channelsList.innerHTML = '';
-            
-            channels.forEach(channel => {
-                const chanDiv = document.createElement('div');
-                chanDiv.classList.add('item-entry');
-                chanDiv.innerHTML = `
-                    <input type="checkbox" id="channel_${channel.id}" value="${channel.id}">
-                    <label for="channel_${channel.id}" class="item-name">
-                        <span>${channel.name}</span>
-                        <span class="item-id">(${channel.id})</span>
-                    </label>
-                `;
-                channelsList.appendChild(chanDiv);
-            });
-        }
-
-        // بدء عملية النسخ
+        // بدء عملية النسخ الفعلية
         async function startCopying() {
             if (isCopying) return;
             
             isCopying = true;
             shouldStop = false;
-            document.getElementById('copyBtn').disabled = true;
-            document.getElementById('stopBtn').disabled = false;
-            updateProgress(0);
+            const userToken = document.getElementById('userToken').value;
+            const clearBeforeCopy = document.getElementById('clearBeforeCopy').checked;
+            const copyEveryoneRole = document.getElementById('copyEveryoneRole').checked;
+            
+            // الحصول على العناصر المحددة من الواجهة
+            const selectedRoles = Array.from(document.querySelectorAll('#rolesList input:checked')).map(cb => cb.value);
+            const selectedCategories = Array.from(document.querySelectorAll('#categoriesList input:checked')).map(cb => cb.value);
+            const selectedChannels = Array.from(document.querySelectorAll('#channelsList input:checked')).map(cb => cb.value);
+            
+            // الحصول على العناصر المحددة من الإيديهات
+            const specificCategories = document.getElementById('specificCategories').value.split(',').filter(id => id.trim() !== '');
+            const specificChannels = document.getElementById('specificChannels').value.split(',').filter(id => id.trim() !== '');
+            const specificRoles = document.getElementById('specificRoles').value.split(',').filter(id => id.trim() !== '');
 
+            // دمج العناصر المحددة من الواجهة والإيديهات
+            const rolesToCopy = [...new Set([...selectedRoles, ...specificRoles])];
+            const categoriesToCopy = [...new Set([...selectedCategories, ...specificCategories])];
+            const channelsToCopy = [...new Set([...selectedChannels, ...specificChannels])];
+
+            addLog('بدء عملية النسخ...', 'info');
+            
             try {
-                // جمع العناصر المحددة
-                const selectedRoles = Array.from(document.querySelectorAll('#rolesList input:checked')).map(cb => cb.value);
-                const selectedCategories = Array.from(document.querySelectorAll('#categoriesList input:checked')).map(cb => cb.value);
-                const selectedChannels = Array.from(document.querySelectorAll('#channelsList input:checked')).map(cb => cb.value);
-
-                // إضافة العناصر المحددة يدوياً
-                const specificCats = document.getElementById('specificCategories').value.split(',').filter(id => id.trim());
-                const specificChans = document.getElementById('specificChannels').value.split(',').filter(id => id.trim());
-                const specificRoles = document.getElementById('specificRoles').value.split(',').filter(id => id.trim());
-
-                const allRoles = [...new Set([...selectedRoles, ...specificRoles])];
-                const allCategories = [...new Set([...selectedCategories, ...specificCats])];
-                const allChannels = [...new Set([...selectedChannels, ...specificChans])];
-
-                addLog('بدء عملية النسخ...', 'info');
-
-                // نسخ الرولات
-                if (allRoles.length > 0) {
-                    await copyRoles(userToken, sourceGuildId, targetGuildId, allRoles);
+                // مسح السيرفر الهدف إذا كان الخيار مفعلاً
+                if (clearBeforeCopy) {
+                    addLog('جاري مسح السيرفر الهدف...', 'warning');
+                    await clearTargetServer(userToken, targetGuildId);
+                    addLog('تم مسح السيرفر الهدف', 'success');
                 }
 
-                // نسخ الكاتجوريهات
-                if (allCategories.length > 0) {
-                    await copyCategories(userToken, sourceGuildId, targetGuildId, allCategories);
+                // نسخ صلاحيات @everyone إذا كان الخيار مفعلاً
+                if (copyEveryoneRole) {
+                    addLog('جاري نسخ صلاحيات رول @everyone...', 'info');
+                    await copyEveryonePermissions(userToken, sourceGuildId, targetGuildId);
                 }
 
-                // نسخ التشانلات
-                if (allChannels.length > 0) {
-                    await copyChannels(userToken, sourceGuildId, targetGuildId, allChannels);
+                // نسخ الرولات المحددة
+                if (rolesToCopy.length > 0) {
+                    addLog(`جاري نسخ ${rolesToCopy.length} دور...`, 'info');
+                    await copyRoles(userToken, sourceGuildId, targetGuildId, rolesToCopy);
+                } else {
+                    addLog('لم يتم تحديد أي رولات للنسخ', 'info');
                 }
 
-                updateProgress(100);
-                addLog('اكتملت عملية النسخ بنجاح!', 'success');
+                // نسخ الكاتجوريهات المحددة مع الحفاظ على الترتيب
+                if (categoriesToCopy.length > 0) {
+                    addLog(`جاري نسخ ${categoriesToCopy.length} كاتجوري مع الحفاظ على الترتيب...`, 'info');
+                    await copyCategories(userToken, sourceGuildId, targetGuildId, categoriesToCopy);
+                } else {
+                    addLog('لم يتم تحديد أي كاتجوريهات للنسخ', 'info');
+                }
+
+                // نسخ التشانلات المحددة مع الحفاظ على الترتيب وربطها بالكاتجوريهات
+                if (channelsToCopy.length > 0) {
+                    addLog(`جاري نسخ ${channelsToCopy.length} تشانل مع الحفاظ على الترتيب والصلاحيات...`, 'info');
+                    await copyChannels(userToken, sourceGuildId, targetGuildId, channelsToCopy);
+                } else {
+                    addLog('لم يتم تحديد أي تشانلات للنسخ', 'info');
+                }
+
+                if (!shouldStop) {
+                    addLog('تمت عملية النسخ بنجاح!', 'success');
+                    updateProgress(100);
+                } else {
+                    addLog('تم إيقاف عملية النسخ', 'warning');
+                }
+
             } catch (error) {
-                addLog('خطأ في عملية النسخ: ' + error.message, 'error');
+                addLog(`خطأ أثناء النسخ: ${error.message}`, 'error');
+                console.error(error);
             } finally {
                 isCopying = false;
-                document.getElementById('copyBtn').disabled = false;
                 document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        // مسح السيرفر الهدف
+        async function clearTargetServer(token, guildId) {
+            try {
+                // مسح التشانلات
+                const channels = await discordRequest(`https://discord.com/api/v9/guilds/${guildId}/channels`);
+                for (const channel of channels) {
+                    if (shouldStop) break;
+                    await discordRequest(`https://discord.com/api/v9/channels/${channel.id}`, {
+                        method: 'DELETE'
+                    });
+                    addLog(`تم حذف التشانل: ${channel.name}`, 'info');
+                    await delay(1000);
+                }
+                
+                // مسح الرولات (عدا @everyone)
+                const roles = await discordRequest(`https://discord.com/api/v9/guilds/${guildId}/roles`);
+                const rolesToDelete = roles.filter(role => role.name !== '@everyone' && !role.managed);
+                
+                for (const role of rolesToDelete) {
+                    if (shouldStop) break;
+                    await discordRequest(`https://discord.com/api/v9/guilds/${guildId}/roles/${role.id}`, {
+                        method: 'DELETE'
+                    });
+                    addLog(`تم حذف الرول: ${role.name}`, 'info');
+                    await delay(1000);
+                }
+                
+                return true;
+            } catch (error) {
+                addLog(`خطأ أثناء مسح السيرفر: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // نسخ صلاحيات @everyone
+        async function copyEveryonePermissions(token, sourceGuildId, targetGuildId) {
+            try {
+                // الحصول على صلاحيات @everyone من السيرفر المصدر
+                const sourceEveryoneRole = roles.find(role => role.name === '@everyone');
+                
+                if (sourceEveryoneRole) {
+                    // تحديث صلاحيات @everyone في السيرفر الهدف
+                    await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles/${targetGuildId}`, {
+                        method: 'PATCH',
+                        body: JSON.stringify({
+                            permissions: sourceEveryoneRole.permissions
+                        })
+                    });
+                    
+                    addLog('تم نسخ صلاحيات رول @everyone بنجاح', 'success');
+                } else {
+                    addLog('لم يتم العثور على رول @everyone في السيرفر المصدر', 'warning');
+                }
+                
+                await delay(1000);
+            } catch (error) {
+                addLog(`خطأ أثناء نسخ صلاحيات @everyone: ${error.message}`, 'error');
+                throw error;
             }
         }
 
         // نسخ الرولات
         async function copyRoles(token, sourceGuildId, targetGuildId, roleIds) {
             try {
-                const rolesToCopy = roles.filter(role => roleIds.includes(role.id));
+                // الحصول على جميع الرولات من المصدر
+                const allRoles = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
+                
+                // تصفية الرولات المطلوبة فقط
+                const rolesToCopy = allRoles.filter(role => 
+                    roleIds.includes(role.id) && role.name !== '@everyone'
+                );
+                
+                // ترتيب الرولات حسب الترتيب في السيرفر المصدر
                 rolesToCopy.sort((a, b) => a.position - b.position);
-
+                
                 for (const role of rolesToCopy) {
                     if (shouldStop) break;
-
+                    
                     addLog(`جاري نسخ الرول: ${role.name}`, 'info');
-
-                    const roleData = {
-                        name: role.name,
-                        permissions: role.permissions,
-                        color: role.color,
-                        hoist: role.hoist,
-                        mentionable: role.mentionable
-                    };
-
+                    
+                    // إنشاء الرول في السيرفر الهدف
                     const newRole = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
                         method: 'POST',
-                        body: JSON.stringify(roleData)
+                        body: JSON.stringify({
+                            name: role.name,
+                            color: role.color,
+                            hoist: role.hoist,
+                            mentionable: role.mentionable,
+                            permissions: role.permissions
+                        })
                     });
-
+                    
                     roleMap[role.id] = newRole.id;
                     addLog(`تم نسخ الرول: ${role.name}`, 'success');
                     await delay(1000);
-
-                    updateProgress(50 * (rolesToCopy.indexOf(role) / rolesToCopy.length));
+                    
+                    updateProgress(40 + (rolesToCopy.indexOf(role) / rolesToCopy.length * 30));
                 }
             } catch (error) {
                 addLog(`خطأ أثناء نسخ الرولات: ${error.message}`, 'error');
@@ -1010,37 +976,44 @@
         // نسخ الكاتجوريهات
         async function copyCategories(token, sourceGuildId, targetGuildId, categoryIds) {
             try {
+                // الحصول على جميع الكاتجوريهات من المصدر
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
+                
+                // تصفية الكاتجوريهات المطلوبة فقط
                 const categoriesToCopy = allChannels.filter(channel => 
                     channel.type === 4 && categoryIds.includes(channel.id)
                 );
                 
+                // ترتيب الكاتجوريهات حسب الترتيب في السيرفر المصدر
                 categoriesToCopy.sort((a, b) => a.position - b.position);
-
+                
                 for (const category of categoriesToCopy) {
                     if (shouldStop) break;
-
+                    
                     addLog(`جاري نسخ الكاتجوري: ${category.name}`, 'info');
-
+                    
+                    // إعداد بيانات الكاتجوري مع الصلاحيات
                     const categoryData = {
                         name: category.name,
                         type: 4,
                         position: category.position
                     };
-
+                    
+                    // إضافة الصلاحيات إذا كانت موجودة
                     if (category.permission_overwrites && category.permission_overwrites.length > 0) {
                         categoryData.permission_overwrites = processPermissionOverwrites(category.permission_overwrites);
                     }
-
+                    
+                    // إنشاء الكاتجوري في السيرفر الهدف
                     const newCategory = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
                         method: 'POST',
                         body: JSON.stringify(categoryData)
                     });
-
+                    
                     categoryMap[category.id] = newCategory.id;
                     addLog(`تم نسخ الكاتجوري: ${category.name}`, 'success');
                     await delay(1000);
-
+                    
                     updateProgress(70 + (categoriesToCopy.indexOf(category) / categoriesToCopy.length * 15));
                 }
             } catch (error) {
@@ -1052,18 +1025,23 @@
         // نسخ التشانلات
         async function copyChannels(token, sourceGuildId, targetGuildId, channelIds) {
             try {
+                // الحصول على جميع التشانلات من المصدر
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
+                
+                // تصفية التشانلات المطلوبة فقط
                 const channelsToCopy = allChannels.filter(channel => 
                     channelIds.includes(channel.id) && channel.type !== 4
                 );
-
+                
+                // ترتيب التشانلات حسب الترتيب في السيرفر المصدر
                 channelsToCopy.sort((a, b) => a.position - b.position);
-
+                
                 for (const channel of channelsToCopy) {
                     if (shouldStop) break;
-
+                    
                     addLog(`جاري نسخ التشانل: ${channel.name}`, 'info');
-
+                    
+                    // إعداد بيانات التشانل
                     const channelData = {
                         name: channel.name,
                         type: channel.type,
@@ -1074,23 +1052,26 @@
                         user_limit: channel.user_limit || undefined,
                         rate_limit_per_user: channel.rate_limit_per_user || undefined
                     };
-
+                    
+                    // إضافة الصلاحيات إذا كانت موجودة
                     if (channel.permission_overwrites && channel.permission_overwrites.length > 0) {
                         channelData.permission_overwrites = processPermissionOverwrites(channel.permission_overwrites);
                     }
-
+                    
+                    // إذا كانت التشانل تابعة لكاتجوري، نبحث عن الكاتجوري المناظرة في الهدف
                     if (channel.parent_id && categoryMap[channel.parent_id]) {
                         channelData.parent_id = categoryMap[channel.parent_id];
                     }
-
+                    
+                    // إنشاء التشانل في السيرفر الهدف
                     const newChannel = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
                         method: 'POST',
                         body: JSON.stringify(channelData)
                     });
-
+                    
                     addLog(`تم نسخ التشانل: ${channel.name}`, 'success');
                     await delay(1000);
-
+                    
                     updateProgress(85 + (channelsToCopy.indexOf(channel) / channelsToCopy.length * 15));
                 }
             } catch (error) {
@@ -1108,11 +1089,12 @@
                     allow: overwrite.allow,
                     deny: overwrite.deny
                 };
-
+                
+                // إذا كان ال overwrite خاص بـ @everyone، نستخدم أيدي السيرفر الهدف
                 if (overwrite.type === 0 && overwrite.id === sourceGuildId) {
                     newOverwrite.id = targetGuildId;
                 }
-
+                
                 return newOverwrite;
             });
         }
@@ -1122,4 +1104,5 @@
         addLog('يمكنك استخدام هذه الأداة لنسخ التشانلات والكاتجوريهات والرولات من سيرفر إلى آخر', 'info');
     </script>
 </body>
+
 </html>
