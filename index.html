@@ -2,12 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     <link rel="icon" href="/h.ico" type="image/ico+xml" />
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EL¹ ᴢ ᴇ ᴛ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* نفس الستايل السابق... */
         :root {
             --primary-color: #FFD700;
             --secondary-color: #FFA500;
@@ -46,24 +46,6 @@
             flex: 1;
         }
 
-        .github-config {
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            border: 1px solid var(--primary-color);
-        }
-
-        .github-config h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .github-config input {
-            margin-bottom: 10px;
-        }
-
-        /* باقي الستايلات كما هي... */
         .main-header {
             text-align: center;
             margin-bottom: 10px;
@@ -84,6 +66,11 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 1px solid #333;
+        }
+
+        .description {
+            color: #CCC;
+            font-size: 1.1em;
         }
 
         .form-section {
@@ -460,31 +447,12 @@
             <h3>كيفية استخدام الأداة:</h3>
             <ol>
                 <li>أدخل التوكن الخاص بك من Discord (إعدادات → Advanced → Developer Mode)</li>
-                <li>اضغط على "حفظ التوكن في ملف" لحفظه في tokens.json</li>
+                <li>اضغط على "حفظ التوكن في ملف" لحفظه محلياً</li>
                 <li>أدخل أيدي السيرفر المصدر والسيرفر الهدف (Enable Developer Mode → Right-click on server → Copy ID)</li>
                 <li>اضغط على "الاتصال بالسيرفرات وعرض العناصر"</li>
                 <li>اختر العناصر التي تريد نسخها</li>
                 <li>اضغط على "بدء النسخ"</li>
             </ol>
-        </div>
-
-        <div class="github-config">
-            <h3>إعدادات GitHub (مطلوبة لحفظ التوكنات في الملف)</h3>
-            <div class="input-group">
-                <label for="githubToken">GitHub Personal Access Token</label>
-                <input type="password" id="githubToken" placeholder="أدخل GitHub Token مع صلاحية repo">
-            </div>
-            <div class="input-group">
-                <label for="githubUsername">اسم المستخدم على GitHub</label>
-                <input type="text" id="githubUsername" placeholder="أدخل اسم المستخدم">
-            </div>
-            <div class="input-group">
-                <label for="githubRepo">اسم الريبو</label>
-                <input type="text" id="githubRepo" placeholder="أدخل اسم الريبو">
-            </div>
-            <button onclick="saveGithubConfig()" class="button-success">
-                <i class="fas fa-save"></i> حفظ إعدادات GitHub
-            </button>
         </div>
 
         <div class="discord-link">
@@ -628,230 +596,105 @@
 
     <script>
         // ==============================================
-        // نظام حفظ التوكنات في ملف tokens.json على GitHub
+        // نظام حفظ التوكنات في ملف محلي
         // ==============================================
         
-        // إعدادات GitHub
-        let githubConfig = {
-            token: '',
-            username: '',
-            repo: ''
-        };
-
-        // تحميل إعدادات GitHub من LocalStorage
-        function loadGithubConfig() {
-            const saved = localStorage.getItem('githubConfig');
-            if (saved) {
-                githubConfig = JSON.parse(saved);
-                document.getElementById('githubToken').value = githubConfig.token || '';
-                document.getElementById('githubUsername').value = githubConfig.username || '';
-                document.getElementById('githubRepo').value = githubConfig.repo || '';
-            }
-        }
-
-        // حفظ إعدادات GitHub
-        function saveGithubConfig() {
-            githubConfig = {
-                token: document.getElementById('githubToken').value.trim(),
-                username: document.getElementById('githubUsername').value.trim(),
-                repo: document.getElementById('githubRepo').value.trim()
-            };
-
-            if (!githubConfig.token || !githubConfig.username || !githubConfig.repo) {
-                addLog('خطأ: يجب ملء جميع حقول إعدادات GitHub', 'error');
-                return;
-            }
-
-            localStorage.setItem('githubConfig', JSON.stringify(githubConfig));
-            addLog('✓ تم حفظ إعدادات GitHub بنجاح', 'success');
-        }
-
-        // جلب محتوى ملف tokens.json من GitHub
-        async function getTokensFile() {
-            if (!githubConfig.token || !githubConfig.username || !githubConfig.repo) {
-                throw new Error('إعدادات GitHub غير مكتملة');
-            }
-
-            const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/tokens.json`;
-            
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `token ${githubConfig.token}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            });
-
-            if (response.status === 404) {
-                // الملف غير موجود، نرجع مصفوفة فارغة
-                return [];
-            }
-
-            if (!response.ok) {
-                throw new Error(`خطأ في جلب الملف: ${response.status}`);
-            }
-
-            const data = await response.json();
-            const content = JSON.parse(atob(data.content));
-            return content;
-        }
-
-        // حفظ التوكن في ملف tokens.json على GitHub
-        async function saveToken() {
+        const STORAGE_KEY = 'discord_token_data';
+        
+        // حفظ التوكن في localStorage
+        function saveToken() {
             const token = document.getElementById('userToken').value.trim();
             
             if (!token) {
                 addLog('خطأ: الرجاء إدخال التوكن أولاً', 'error');
                 return;
             }
-
-            if (!githubConfig.token || !githubConfig.username || !githubConfig.repo) {
-                addLog('خطأ: يجب إعداد GitHub أولاً', 'error');
-                return;
-            }
             
             try {
-                // جلب الملف الحالي
-                let tokens = [];
-                let sha = null;
-
-                try {
-                    const fileData = await getTokensFile();
-                    tokens = Array.isArray(fileData) ? fileData : [];
-                    
-                    // الحصول على SHA للملف الموجود
-                    const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/tokens.json`;
-                    const response = await fetch(url, {
-                        headers: {
-                            'Authorization': `token ${githubConfig.token}`,
-                            'Accept': 'application/vnd.github.v3+json'
-                        }
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        sha = data.sha;
-                    }
-                } catch (error) {
-                    // الملف غير موجود، نبدأ بمصفوفة فارغة
-                    tokens = [];
-                }
-
-                // إضافة التوكن الجديد
-                const newToken = {
-                    id: Date.now().toString(),
+                // حفظ التوكن في localStorage
+                const data = {
                     token: token,
-                    savedAt: new Date().toISOString(),
-                    savedBy: githubConfig.username
+                    savedAt: new Date().toISOString()
                 };
-
-                tokens.push(newToken);
-
-                // حفظ الملف المحدث
-                const content = btoa(JSON.stringify(tokens, null, 2));
-                const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/tokens.json`;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${githubConfig.token}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: `إضافة توكن جديد - ${new Date().toLocaleString('ar-SA')}`,
-                        content: content,
-                        sha: sha
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'خطأ في حفظ الملف');
-                }
-
-                addLog('✓ تم حفظ التوكن بنجاح في ملف tokens.json', 'success');
+                // تحميل الملف للمستخدم
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'discord-token.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                addLog('✓ تم حفظ التوكن بنجاح في الملف وفي المتصفح', 'success');
             } catch (error) {
                 addLog('خطأ في حفظ التوكن: ' + error.message, 'error');
             }
         }
         
-        // تحميل التوكن من ملف tokens.json على GitHub
-        async function loadToken() {
+        // تحميل التوكن من localStorage أو من ملف
+        function loadToken() {
             try {
-                const tokens = await getTokensFile();
-                
-                if (tokens && tokens.length > 0) {
-                    const latestToken = tokens[tokens.length - 1];
-                    document.getElementById('userToken').value = latestToken.token;
-                    const savedDate = new Date(latestToken.savedAt).toLocaleString('ar-SA');
+                // محاولة التحميل من localStorage أولاً
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById('userToken').value = data.token;
+                    const savedDate = new Date(data.savedAt).toLocaleString('ar-SA');
                     addLog(`✓ تم تحميل التوكن المحفوظ من ${savedDate}`, 'success');
-                } else {
-                    addLog('لا يوجد توكنات محفوظة في الملف', 'warning');
+                    return;
                 }
+                
+                // إذا لم يكن موجود، السماح برفع ملف
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const text = await file.text();
+                        const data = JSON.parse(text);
+                        document.getElementById('userToken').value = data.token;
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        addLog('✓ تم تحميل التوكن من الملف بنجاح', 'success');
+                    }
+                };
+                input.click();
             } catch (error) {
                 addLog('خطأ في تحميل التوكن: ' + error.message, 'error');
             }
         }
         
-        // حذف جميع التوكنات المحفوظة من الملف
-        async function deleteToken() {
+        // حذف التوكن المحفوظ
+        function deleteToken() {
             try {
-                if (!githubConfig.token || !githubConfig.username || !githubConfig.repo) {
-                    addLog('خطأ: يجب إعداد GitHub أولاً', 'error');
-                    return;
-                }
-
-                let sha = null;
-                const url = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.repo}/contents/tokens.json`;
-                
-                // الحصول على SHA للملف الموجود
-                const response = await fetch(url, {
-                    headers: {
-                        'Authorization': `token ${githubConfig.token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    sha = data.sha;
-                } else if (response.status !== 404) {
-                    throw new Error('خطأ في الوصول إلى الملف');
-                }
-
-                // إذا كان الملف موجود، نحذفه
-                if (sha) {
-                    const deleteResponse = await fetch(url, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': `token ${githubConfig.token}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/vnd.github.v3+json'
-                        },
-                        body: JSON.stringify({
-                            message: `حذف جميع التوكنات - ${new Date().toLocaleString('ar-SA')}`,
-                            sha: sha
-                        })
-                    });
-
-                    if (!deleteResponse.ok) {
-                        throw new Error('خطأ في حذف الملف');
-                    }
-                }
-
+                localStorage.removeItem(STORAGE_KEY);
                 document.getElementById('userToken').value = '';
-                addLog('✓ تم حذف جميع التوكنات المحفوظة', 'success');
+                addLog('✓ تم حذف التوكن المحفوظ', 'success');
             } catch (error) {
-                addLog('خطأ في حذف التوكنات: ' + error.message, 'error');
+                addLog('خطأ في حذف التوكن: ' + error.message, 'error');
             }
         }
         
-        // تحميل تلقائي لإعدادات GitHub عند فتح الصفحة
+        // تحميل تلقائي للتوكن عند فتح الصفحة
         window.addEventListener('load', function() {
-            loadGithubConfig();
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById('userToken').value = data.token;
+                    addLog('تم تحميل التوكن المحفوظ تلقائياً', 'info');
+                }
+            } catch (error) {
+                console.error('Error loading saved token:', error);
+            }
         });
 
         // ==============================================
-        // باقي الكود الأصلي (بدون تغيير)
+        // باقي الكود الأصلي
         // ==============================================
         
         // متغيرات لتخزين البيانات
@@ -1104,17 +947,17 @@
 
                 // نسخ الرولات
                 if (allRoles.length > 0) {
-                    await copyRoles(sourceGuildId, targetGuildId, allRoles);
+                    await copyRoles(userToken, sourceGuildId, targetGuildId, allRoles);
                 }
 
                 // نسخ الكاتجوريهات
                 if (allCategories.length > 0) {
-                    await copyCategories(sourceGuildId, targetGuildId, allCategories);
+                    await copyCategories(userToken, sourceGuildId, targetGuildId, allCategories);
                 }
 
                 // نسخ التشانلات
                 if (allChannels.length > 0) {
-                    await copyChannels(sourceGuildId, targetGuildId, allChannels);
+                    await copyChannels(userToken, sourceGuildId, targetGuildId, allChannels);
                 }
 
                 updateProgress(100);
@@ -1129,7 +972,7 @@
         }
 
         // نسخ الرولات
-        async function copyRoles(sourceGuildId, targetGuildId, roleIds) {
+        async function copyRoles(token, sourceGuildId, targetGuildId, roleIds) {
             try {
                 const rolesToCopy = roles.filter(role => roleIds.includes(role.id));
                 rolesToCopy.sort((a, b) => a.position - b.position);
@@ -1165,7 +1008,7 @@
         }
 
         // نسخ الكاتجوريهات
-        async function copyCategories(sourceGuildId, targetGuildId, categoryIds) {
+        async function copyCategories(token, sourceGuildId, targetGuildId, categoryIds) {
             try {
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 const categoriesToCopy = allChannels.filter(channel => 
@@ -1207,7 +1050,7 @@
         }
 
         // نسخ التشانلات
-        async function copyChannels(sourceGuildId, targetGuildId, channelIds) {
+        async function copyChannels(token, sourceGuildId, targetGuildId, channelIds) {
             try {
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 const channelsToCopy = allChannels.filter(channel => 
