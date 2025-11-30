@@ -1250,8 +1250,11 @@
                     roleIds.includes(role.id) && role.name !== '@everyone'
                 );
                 
-                // ترتيب الرولات حسب الترتيب في السيرفر المصدر
-                rolesToCopy.sort((a, b) => a.position - b.position);
+                // ترتيب الرولات حسب الترتيب في السيرفر المصدر (من الأعلى إلى الأسفل)
+                rolesToCopy.sort((a, b) => b.position - a.position);
+                
+                // إنشاء مصفوفة لتخزين معلومات الرولات الجديدة
+                const newRoles = [];
                 
                 for (const role of rolesToCopy) {
                     if (shouldStop) break;
@@ -1271,14 +1274,68 @@
                     });
                     
                     roleMap[role.id] = newRole.id;
+                    newRoles.push({
+                        id: newRole.id,
+                        name: newRole.name,
+                        originalPosition: role.position
+                    });
+                    
                     addLog(`تم نسخ الرول: ${role.name}`, 'success');
                     await delay(1000);
                     
                     updateProgress(40 + (rolesToCopy.indexOf(role) / rolesToCopy.length * 30));
                 }
+                
+                // إعادة ترتيب الرولات بعد إنشائها جميعاً
+                if (!shouldStop && newRoles.length > 0) {
+                    addLog('جاري إعادة ترتيب الرولات...', 'info');
+                    await reorderRoles(newRoles);
+                }
+                
             } catch (error) {
                 addLog(`خطأ أثناء نسخ الرولات: ${error.message}`, 'error');
                 throw error;
+            }
+        }
+
+        // إعادة ترتيب الرولات
+        async function reorderRoles(newRoles) {
+            try {
+                // الحصول على الرولات الحالية في السيرفر الهدف
+                const targetRoles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
+                
+                // تصفية الرولات الجديدة فقط
+                const newRoleIds = newRoles.map(r => r.id);
+                const rolesToReorder = targetRoles.filter(role => newRoleIds.includes(role.id));
+                
+                // إنشاء خريطة للرولات الجديدة مع مواقعها الأصلية
+                const positionMap = {};
+                newRoles.forEach(role => {
+                    positionMap[role.id] = role.originalPosition;
+                });
+                
+                // ترتيب الرولات الجديدة حسب مواقعها الأصلية (من الأعلى إلى الأسفل)
+                rolesToReorder.sort((a, b) => positionMap[b.id] - positionMap[a.id]);
+                
+                // إعداد بيانات إعادة الترتيب
+                const reorderData = rolesToReorder.map((role, index) => ({
+                    id: role.id,
+                    position: index + 1 // نبدأ من 1 لأن 0 محجوز لـ @everyone
+                }));
+                
+                // إرسال طلب إعادة الترتيب
+                if (reorderData.length > 0) {
+                    await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
+                        method: 'PATCH',
+                        body: JSON.stringify(reorderData)
+                    });
+                    
+                    addLog(`تم إعادة ترتيب ${reorderData.length} رول بنجاح`, 'success');
+                }
+                
+            } catch (error) {
+                addLog(`خطأ أثناء إعادة ترتيب الرولات: ${error.message}`, 'warning');
+                // لا نرمي خطأ هنا لأن العملية الأساسية قد اكتملت
             }
         }
 
