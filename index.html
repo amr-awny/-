@@ -246,6 +246,11 @@
             color: white;
         }
 
+        .button-success {
+            background: linear-gradient(to right, #4caf50, #45a049);
+            color: white;
+        }
+
         .items-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -307,6 +312,7 @@
         .tab-buttons {
             display: flex;
             border-bottom: 1px solid #444;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -318,6 +324,7 @@
             flex: 1;
             text-align: center;
             transition: background-color 0.3s;
+            min-width: 120px;
         }
 
         .tab-btn.active {
@@ -425,6 +432,152 @@
             margin-left: 8px;
         }
 
+        .bot-roles-option {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #444;
+        }
+
+        .bot-roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+
+        .action-options {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #444;
+        }
+
+        .action-options h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        .action-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .action-option-item {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #444;
+        }
+
+        .action-option-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-option-item i {
+            font-size: 1.2em;
+        }
+
+        .emoji-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            background-color: #333;
+            transition: background-color 0.2s;
+        }
+
+        .emoji-item:hover {
+            background-color: #3a3a3a;
+        }
+
+        .emoji-preview {
+            width: 32px;
+            height: 32px;
+            margin-left: 10px;
+            object-fit: contain;
+        }
+
+        .emoji-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji-name {
+            font-weight: bold;
+        }
+
+        .emoji-animated {
+            color: #FFD700;
+            font-size: 0.8em;
+            padding: 2px 6px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .debug-info {
+            background-color: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+        .tools-section {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #444;
+        }
+
+        .tools-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .tool-item {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #444;
+        }
+
+        .tool-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-description {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -446,8 +599,18 @@
                 grid-template-columns: 1fr;
             }
             
-            .clear-options-grid {
+            .clear-options-grid,
+            .bot-roles-grid,
+            .action-options-grid,
+            .tools-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .tab-btn {
+                flex: 1 0 25%;
+                min-width: 80px;
+                padding: 8px 10px;
+                font-size: 14px;
             }
         }
     </style>
@@ -465,8 +628,8 @@
                 <li>أدخل التوكن الخاص بك من Discord (إعدادات → Advanced → Developer Mode)</li>
                 <li>أدخل أيدي السيرفر المصدر والسيرفر الهدف (Enable Developer Mode → Right-click on server → Copy ID)</li>
                 <li>اضغط على "الاتصال بالسيرفرات وعرض العناصر"</li>
-                <li>اختر العناصر التي تريد نسخها</li>
-                <li>اضغط على "بدء النسخ" أو "بدء المسح" حسب احتياجك</li>
+                <li>اختر العناصر التي تريد نسخها (تفعيل خيار "نسخ عناصر من السيرفر المصدر" مهم!)</li>
+                <li>اضغط على "بدء العملية"</li>
             </ol>
         </div>
 
@@ -495,8 +658,52 @@
                 <input type="text" id="targetGuildId" placeholder="أدخل أيدي السيرفر الهدف">
             </div>
             
-            <!-- خيارات المسح التفصيلية -->
-            <div class="clear-options">
+            <!-- خيارات العملية -->
+            <div class="action-options">
+                <h3>خيارات العملية</h3>
+                <div class="action-options-grid">
+                    <div class="action-option-item">
+                        <h4><i class="fas fa-copy"></i> نوع العملية</h4>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="copyOption" onchange="toggleCopyOptions()" checked>
+                                نسخ عناصر من السيرفر المصدر
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="botRolesOnTop" checked>
+                                وضع رولات البوتات في الأعلى (عند النسخ)
+                            </label>
+                        </div>
+                        <p class="description" style="font-size: 0.9em; margin-top: 10px; color: #aaa;">
+                            <strong>هام:</strong> خيار النسخ يجب أن يكون مفعلاً لكي تعمل عملية النسخ.
+                        </p>
+                    </div>
+                    
+                    <div class="action-option-item">
+                        <h4><i class="fas fa-cogs"></i> خيارات مسح</h4>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="clearBeforeCopy" checked>
+                                مسح السيرفر الهدف قبل النسخ
+                            </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" id="copyEveryoneRole" checked>
+                                نسخ صلاحيات رول @everyone
+                            </label>
+                        </div>
+                        <p class="description" style="font-size: 0.9em; margin-top: 10px; color: #aaa;">
+                            تفعيل خيار المسح سيؤدي إلى مسح العناصر الموجودة في السيرفر الهدف قبل البدء في النسخ
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- خيارات مسح الرولات (تظهر فقط إذا تم تفعيل المسح) -->
+            <div class="clear-options" id="clearOptionsSection" style="display: block;">
                 <h3>خيارات المسح التفصيلية</h3>
                 <p>اختر العناصر التي تريد مسحها من السيرفر الهدف:</p>
                 <div class="clear-options-grid">
@@ -526,29 +733,44 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="checkbox-group">
-                <label>
-                    <input type="checkbox" id="copyEveryoneRole" checked>
-                    نسخ صلاحيات رول @everyone
-                </label>
+        </div>
+
+        <!-- قسم الأدوات المنفصلة -->
+        <div class="tools-section">
+            <h3><i class="fas fa-tools"></i> أدوات منفصلة</h3>
+            <div class="tools-grid">
+                <div class="tool-item">
+                    <h4><i class="fas fa-robot"></i> ترتيب رولات البوتات</h4>
+                    <p class="tool-description">أداة منفصلة لترتيب رولات البوتات في الأعلى بدون نسخ أي عناصر</p>
+                    <button class="button-success" onclick="reorderBotRolesStandalone()" id="reorderBtn">ترتيب رولات البوتات في الأعلى</button>
+                    <div class="debug-info">
+                        <strong>ملاحظة:</strong> هذه الأداة تعمل على السيرفر الهدف فقط وتحتاج إلى صلاحية "Manage Roles"
+                    </div>
+                </div>
+                
+                <div class="tool-item">
+                    <h4><i class="fas fa-eye"></i> عرض الرولات الحالية</h4>
+                    <p class="tool-description">عرض جميع الرولات الموجودة في السيرفر الهدف مع تصنيفها</p>
+                    <button onclick="showCurrentRoles()" id="showRolesBtn">عرض الرولات الحالية</button>
+                </div>
             </div>
         </div>
 
         <div class="flex-buttons">
             <button id="connectBtn" onclick="connectToServers()">الاتصال بالسيرفرات وعرض العناصر</button>
-            <button id="clearBtn" onclick="startClearing()" class="button-warning">بدء المسح فقط</button>
-            <button id="copyBtn" onclick="startCopying()" disabled>بدء النسخ فقط</button>
-            <button id="clearAndCopyBtn" onclick="startClearAndCopy()" disabled>مسح ثم نسخ</button>
+            <button id="startProcessBtn" onclick="startProcess()" disabled>بدء عملية النسخ</button>
             <button id="stopBtn" onclick="stopProcess()" disabled class="button-danger">إيقاف العملية</button>
         </div>
 
-        <div class="tab-container">
+        <!-- تبويبات العناصر (تظهر فقط إذا تم تفعيل النسخ) -->
+        <div class="tab-container" id="tabsSection" style="display: block;">
             <div class="tab-buttons">
                 <button class="tab-btn active" data-tab="roles">الرولات</button>
                 <button class="tab-btn" data-tab="categories">الكاتجوريهات</button>
                 <button class="tab-btn" data-tab="channels">التشانلات</button>
+                <button class="tab-btn" data-tab="emojis">الإيموجيز</button>
                 <button class="tab-btn" data-tab="specific">عناصر محددة</button>
+                <button class="tab-btn" data-tab="current-roles">الرولات الحالية</button>
             </div>
 
             <div class="tab-content">
@@ -562,6 +784,9 @@
                     </div>
                     <div id="rolesList" class="item-list">
                         <p>سيتم عرض الرولات هنا بعد الاتصال بالسيرفر...</p>
+                    </div>
+                    <div class="debug-info">
+                        <strong>ملاحظة:</strong> الرولات المدارية (البوتات) ستظهر بعلامة 🤖
                     </div>
                 </div>
 
@@ -591,6 +816,19 @@
                     </div>
                 </div>
 
+                <div id="emojis" class="tab-pane">
+                    <h2>اختر الإيموجيز المطلوبة</h2>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="selectAllEmojis" onchange="toggleAllSelection('emojis')">
+                            تحديد/إلغاء تحديد الكل
+                        </label>
+                    </div>
+                    <div id="emojisList" class="item-list">
+                        <p>سيتم عرض الإيموجيز هنا بعد الاتصال بالسيرفر...</p>
+                    </div>
+                </div>
+
                 <div id="specific" class="tab-pane">
                     <h2>نسخ عناصر محددة بالإيدي</h2>
                     <div class="specific-items">
@@ -606,6 +844,29 @@
                             <label for="specificRoles">أيدي الرولات المطلوبة (افصل بينهم بفاصلة)</label>
                             <textarea id="specificRoles" placeholder="أدخل أيدي الرولات المطلوبة، مثال: 123456789,987654321"></textarea>
                         </div>
+                        <div class="input-group">
+                            <label for="specificEmojis">أيدي الإيموجيز المطلوبة (افصل بينهم بفاصلة)</label>
+                            <textarea id="specificEmojis" placeholder="أدخل أيدي الإيموجيز المطلوبة، مثال: 123456789,987654321"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="current-roles" class="tab-pane">
+                    <h2>الرولات الحالية في السيرفر الهدف</h2>
+                    <div class="flex-buttons">
+                        <button onclick="refreshCurrentRoles()" class="button-success">
+                            <i class="fas fa-sync-alt"></i> تحديث القائمة
+                        </button>
+                        <button onclick="reorderCurrentBotRoles()" class="button-warning">
+                            <i class="fas fa-sort-amount-up"></i> ترتيب البوتات في الأعلى
+                        </button>
+                    </div>
+                    <div id="currentRolesList" class="item-list">
+                        <p>اضغط على "عرض الرولات الحالية" أو "تحديث القائمة" لعرض الرولات...</p>
+                    </div>
+                    <div class="debug-info">
+                        <strong>إحصائيات:</strong>
+                        <div id="rolesStats">لم يتم تحميل الإحصائيات بعد</div>
                     </div>
                 </div>
             </div>
@@ -619,6 +880,7 @@
             <h2>سجل الأحداث</h2>
             <div id="logContainer" class="log-container">
                 <div class="log-entry log-info">مرحبًا! أدخل المعلومات المطلوبة واتصل بالسيرفرات للبدء.</div>
+                <div class="log-entry log-warning"><strong>تنبيه:</strong> تأكد من تفعيل خيار "نسخ عناصر من السيرفر المصدر" لكي تعمل عملية النسخ.</div>
             </div>
         </div>
 
@@ -639,6 +901,7 @@
         let isProcessing = false;
         let shouldStop = false;
         let sourceGuildId, targetGuildId;
+        let currentTargetRoles = [];
 
         // تهيئة التبويبات عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
@@ -649,7 +912,49 @@
                     openTab(this.dataset.tab);
                 });
             });
+            
+            // تفعيل خيارات المسح عند التغيير
+            document.getElementById('clearBeforeCopy').addEventListener('change', toggleClearOptions);
+            
+            // تفعيل خيار النسخ افتراضياً
+            document.getElementById('copyOption').checked = true;
+            toggleCopyOptions();
+            
+            // تفعيل زر عرض الرولات بعد الاتصال
+            document.getElementById('showRolesBtn').disabled = true;
+            document.getElementById('reorderBtn').disabled = true;
+            
+            // إضافة رسالة توضيحية
+            addLog('خيار النسخ مفعل افتراضياً. يمكنك الآن الاتصال بالسيرفرات وبدء العملية.', 'success');
         });
+
+        // تفعيل/تعطيل خيارات النسخ
+        function toggleCopyOptions() {
+            const copyOption = document.getElementById('copyOption').checked;
+            const tabsSection = document.getElementById('tabsSection');
+            
+            if (copyOption) {
+                tabsSection.style.display = 'block';
+                addLog('خيار النسخ مفعل ✓ - يمكنك الآن اختيار العناصر المطلوبة', 'success');
+            } else {
+                tabsSection.style.display = 'none';
+                addLog('خيار النسخ معطل ✗ - لن يتم نسخ أي عناصر', 'warning');
+            }
+        }
+
+        // تفعيل/تعطيل خيارات المسح
+        function toggleClearOptions() {
+            const clearBeforeCopy = document.getElementById('clearBeforeCopy').checked;
+            const clearOptionsSection = document.getElementById('clearOptionsSection');
+            
+            if (clearBeforeCopy) {
+                clearOptionsSection.style.display = 'block';
+                addLog('خيار المسح قبل النسخ مفعل ✓', 'warning');
+            } else {
+                clearOptionsSection.style.display = 'none';
+                addLog('خيار المسح قبل النسخ معطل ✗', 'info');
+            }
+        }
 
         // فتح تبويب معين
         function openTab(tabName) {
@@ -689,6 +994,7 @@
                 case 'categories': return 'الكاتجوريهات';
                 case 'channels': return 'التشانلات';
                 case 'roles': return 'الرولات';
+                case 'emojis': return 'الإيموجيز';
                 default: return type;
             }
         }
@@ -751,7 +1057,10 @@
                     } catch (e) {
                         errorData = 'لا يمكن قراءة نص الخطأ';
                     }
-                    throw new Error(`خطأ في الطلب: ${response.status} ${response.statusText} - ${errorData}`);
+                    
+                    const errorMessage = `خطأ في الطلب: ${response.status} ${response.statusText} - ${errorData}`;
+                    addLog(errorMessage, 'error');
+                    throw new Error(errorMessage);
                 }
                 
                 // محاولة تحليل JSON فقط إذا كان هناك محتوى
@@ -763,78 +1072,6 @@
                 return JSON.parse(text);
             } catch (error) {
                 addLog(`فشل في الطلب إلى ${url}: ${error.message}`, 'error');
-                throw error;
-            }
-        }
-
-        // دالة مبسطة لحذف الإيموجيز (بدون body)
-        async function deleteEmoji(guildId, emojiId) {
-            const userToken = document.getElementById('userToken').value;
-            
-            try {
-                const response = await fetch(`https://discord.com/api/v9/guilds/${guildId}/emojis/${emojiId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': userToken
-                    }
-                });
-                
-                if (response.status === 429) {
-                    const retryAfter = response.headers.get('Retry-After') || 1;
-                    addLog(`تم التقييد، جاري الانتظار ${retryAfter} ثانية...`, 'warning');
-                    await delay(retryAfter * 1000);
-                    return deleteEmoji(guildId, emojiId);
-                }
-                
-                if (!response.ok) {
-                    let errorData;
-                    try {
-                        errorData = await response.text();
-                    } catch (e) {
-                        errorData = 'لا يمكن قراءة نص الخطأ';
-                    }
-                    throw new Error(`خطأ في الطلب: ${response.status} ${response.statusText} - ${errorData}`);
-                }
-                
-                return true;
-            } catch (error) {
-                addLog(`فشل في حذف الإيموجي: ${error.message}`, 'error');
-                throw error;
-            }
-        }
-
-        // دالة مبسطة لحذف الرولات (بدون body)
-        async function deleteRole(guildId, roleId) {
-            const userToken = document.getElementById('userToken').value;
-            
-            try {
-                const response = await fetch(`https://discord.com/api/v9/guilds/${guildId}/roles/${roleId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': userToken
-                    }
-                });
-                
-                if (response.status === 429) {
-                    const retryAfter = response.headers.get('Retry-After') || 1;
-                    addLog(`تم التقييد، جاري الانتظار ${retryAfter} ثانية...`, 'warning');
-                    await delay(retryAfter * 1000);
-                    return deleteRole(guildId, roleId);
-                }
-                
-                if (!response.ok) {
-                    let errorData;
-                    try {
-                        errorData = await response.text();
-                    } catch (e) {
-                        errorData = 'لا يمكن قراءة نص الخطأ';
-                    }
-                    throw new Error(`خطأ في الطلب: ${response.status} ${response.statusText} - ${errorData}`);
-                }
-                
-                return true;
-            } catch (error) {
-                addLog(`فشل في حذف الرول: ${error.message}`, 'error');
                 throw error;
             }
         }
@@ -890,36 +1127,59 @@
                 addLog(`تم الاتصال بالسيرفر المصدر: ${sourceGuild.name}`, 'success');
                 addLog(`تم الاتصال بالسيرفر الهدف: ${targetGuild.name}`, 'success');
 
-                // جلب البيانات من السيرفر المصدر
-                addLog('جاري جلب البيانات من السيرفر المصدر...', 'info');
-                
-                // جلب الرولات
-                const rolesResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
-                roles = rolesResponse;
-                displayItems('roles', roles.filter(role => role.name !== '@everyone'));
-                addLog(`تم جلب ${roles.length} دور من السيرفر المصدر`, 'success');
-                
-                // جلب التشانلات
-                const channelsResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
-                channels = channelsResponse;
-                
-                // فصل الكاتجوريهات عن التشانلات
-                categories = channels.filter(ch => ch.type === 4);
-                channels = channels.filter(ch => ch.type !== 4);
-                
-                displayItems('categories', categories);
-                displayItems('channels', channels);
-                
-                // جلب الإيموجيز
-                const emojisResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/emojis`);
-                emojis = emojisResponse;
-                
-                addLog(`تم جلب ${categories.length} كاتجوري و ${channels.length} تشانل و ${emojis.length} إيموجي من السيرفر المصدر`, 'success');
+                // تفعيل أزرار الأدوات المنفصلة
+                document.getElementById('showRolesBtn').disabled = false;
+                document.getElementById('reorderBtn').disabled = false;
 
-                // تفعيل الأزرار
-                document.getElementById('copyBtn').disabled = false;
-                document.getElementById('clearBtn').disabled = false;
-                document.getElementById('clearAndCopyBtn').disabled = false;
+                // جلب البيانات من السيرفر المصدر فقط إذا كان خيار النسخ مفعلاً
+                const copyOption = document.getElementById('copyOption').checked;
+                if (copyOption) {
+                    addLog('جاري جلب البيانات من السيرفر المصدر...', 'info');
+                    
+                    try {
+                        // جلب الرولات
+                        const rolesResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
+                        roles = rolesResponse;
+                        
+                        // تصنيف الرولات
+                        const botRoles = roles.filter(role => role.managed && role.name !== '@everyone');
+                        const normalRoles = roles.filter(role => !role.managed && role.name !== '@everyone');
+                        
+                        addLog(`تم جلب ${roles.length} دور من السيرفر المصدر (${botRoles.length} بوت، ${normalRoles.length} عادي)`, 'success');
+                        
+                        displayItems('roles', roles.filter(role => role.name !== '@everyone'));
+                        
+                        // جلب التشانلات
+                        const channelsResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
+                        channels = channelsResponse;
+                        
+                        // فصل الكاتجوريهات عن التشانلات
+                        categories = channels.filter(ch => ch.type === 4);
+                        channels = channels.filter(ch => ch.type !== 4);
+                        
+                        displayItems('categories', categories);
+                        displayItems('channels', channels);
+                        
+                        // جلب الإيموجيز
+                        const emojisResponse = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/emojis`);
+                        emojis = emojisResponse;
+                        displayEmojis(emojis);
+                        
+                        addLog(`تم جلب ${categories.length} كاتجوري و ${channels.length} تشانل و ${emojis.length} إيموجي من السيرفر المصدر`, 'success');
+                        
+                        // عرض معلومات التصحيح
+                        const botRolesOnTop = document.getElementById('botRolesOnTop').checked;
+                        addLog(`خيار وضع رولات البوتات في الأعلى: ${botRolesOnTop ? 'مفعل ✓' : 'غير مفعل ✗'}`, 'info');
+                    } catch (error) {
+                        addLog(`خطأ في جلب بيانات السيرفر المصدر: ${error.message}`, 'error');
+                        // لا نوقف العملية هنا، يمكن للمستخدم المتابعة مع المسح فقط
+                    }
+                } else {
+                    addLog('تم الاتصال بنجاح، يمكنك الآن استخدام الأدوات المنفصلة أو بدء عملية المسح', 'success');
+                }
+
+                // تفعيل أزرار البدء والإيقاف
+                document.getElementById('startProcessBtn').disabled = false;
                 document.getElementById('stopBtn').disabled = false;
                 updateProgress(30);
 
@@ -942,140 +1202,93 @@
             items.forEach(item => {
                 const itemEntry = document.createElement('div');
                 itemEntry.className = 'item-entry';
+                
+                // إضافة أيقونة للرولات المدارية (بوتات)
+                const isManaged = type === 'roles' && item.managed;
+                const managedIcon = isManaged ? '🤖 ' : '';
+                
                 itemEntry.innerHTML = `
                     <span class="item-id">${item.id}</span>
-                    <span class="item-name">${item.name}</span>
+                    <span class="item-name">${managedIcon}${item.name}${isManaged ? ' (بوت)' : ''}</span>
                     <input type="checkbox" name="${type}" value="${item.id}" checked>
                 `;
                 container.appendChild(itemEntry);
             });
         }
 
-        // بدء عملية المسح فقط
-        async function startClearing() {
-            if (isProcessing) return;
+        // عرض الإيموجيز في القائمة
+        function displayEmojis(emojisList) {
+            const container = document.getElementById('emojisList');
+            container.innerHTML = '';
             
-            isProcessing = true;
-            shouldStop = false;
-            
-            addLog('بدء عملية المسح...', 'info');
-            
-            try {
-                // مسح السيرفر الهدف
-                addLog('جاري مسح السيرفر الهدف...', 'warning');
-                await clearTargetServer();
-                addLog('تم مسح السيرفر الهدف بنجاح', 'success');
-                
-                if (!shouldStop) {
-                    updateProgress(100);
-                } else {
-                    addLog('تم إيقاف عملية المسح', 'warning');
-                }
-
-            } catch (error) {
-                addLog(`خطأ أثناء المسح: ${error.message}`, 'error');
-                console.error(error);
-            } finally {
-                isProcessing = false;
-                document.getElementById('stopBtn').disabled = true;
+            if (emojisList.length === 0) {
+                container.innerHTML = '<p>لا توجد إيموجيز</p>';
+                return;
             }
+            
+            emojisList.forEach(emoji => {
+                const emojiItem = document.createElement('div');
+                emojiItem.className = 'emoji-item';
+                
+                const emojiUrl = `https://cdn.discordapp.com/emojis/${emoji.id}.${emoji.animated ? 'gif' : 'png'}`;
+                
+                emojiItem.innerHTML = `
+                    <div class="emoji-info">
+                        <img src="${emojiUrl}" alt="${emoji.name}" class="emoji-preview">
+                        <span class="emoji-name">${emoji.name}</span>
+                        ${emoji.animated ? '<span class="emoji-animated">متحرك</span>' : ''}
+                        <span class="item-id">${emoji.id}</span>
+                    </div>
+                    <input type="checkbox" name="emojis" value="${emoji.id}" checked>
+                `;
+                container.appendChild(emojiItem);
+            });
         }
 
-        // بدء عملية النسخ فقط
-        async function startCopying() {
+        // بدء العملية الرئيسية
+        async function startProcess() {
             if (isProcessing) return;
             
             isProcessing = true;
             shouldStop = false;
-            const copyEveryoneRole = document.getElementById('copyEveryoneRole').checked;
             
-            // الحصول على العناصر المحددة من الواجهة
-            const selectedRoles = Array.from(document.querySelectorAll('#rolesList input:checked')).map(cb => cb.value);
-            const selectedCategories = Array.from(document.querySelectorAll('#categoriesList input:checked')).map(cb => cb.value);
-            const selectedChannels = Array.from(document.querySelectorAll('#channelsList input:checked')).map(cb => cb.value);
+            const copyOption = document.getElementById('copyOption').checked;
+            const clearBeforeCopy = document.getElementById('clearBeforeCopy').checked;
             
-            // الحصول على العناصر المحددة من الإيديهات
-            const specificCategories = document.getElementById('specificCategories').value.split(',').filter(id => id.trim() !== '');
-            const specificChannels = document.getElementById('specificChannels').value.split(',').filter(id => id.trim() !== '');
-            const specificRoles = document.getElementById('specificRoles').value.split(',').filter(id => id.trim() !== '');
-
-            // دمج العناصر المحددة من الواجهة والإيديهات
-            const rolesToCopy = [...new Set([...selectedRoles, ...specificRoles])];
-            const categoriesToCopy = [...new Set([...selectedCategories, ...specificCategories])];
-            const channelsToCopy = [...new Set([...selectedChannels, ...specificChannels])];
-
-            addLog('بدء عملية النسخ...', 'info');
+            addLog('بدء العملية...', 'info');
+            addLog(`الإعدادات: النسخ=${copyOption ? 'نعم ✓' : 'لا ✗'}, المسح=${clearBeforeCopy ? 'نعم ✓' : 'لا ✗'}`, 'info');
             
             try {
-                // نسخ صلاحيات @everyone إذا كان الخيار مفعلاً
-                if (copyEveryoneRole) {
-                    addLog('جاري نسخ صلاحيات رول @everyone...', 'info');
-                    await copyEveryonePermissions();
+                // المسح قبل النسخ إذا كان الخيار مفعلاً
+                if (clearBeforeCopy) {
+                    addLog('جاري مسح السيرفر الهدف...', 'warning');
+                    const clearResult = await clearTargetServer();
+                    if (clearResult) {
+                        addLog('تم مسح السيرفر الهدف بنجاح', 'success');
+                    } else {
+                        addLog('فشل في مسح بعض عناصر السيرفر الهدف، لكن سنواصل المحاولة', 'warning');
+                    }
                 }
-
-                // نسخ الرولات المحددة
-                if (rolesToCopy.length > 0) {
-                    addLog(`جاري نسخ ${rolesToCopy.length} دور...`, 'info');
-                    await copyRoles(rolesToCopy);
+                
+                // النسخ إذا كان الخيار مفعلاً
+                if (copyOption) {
+                    addLog('جاري نسخ العناصر المحددة...', 'info');
+                    const copyResult = await copySelectedItems();
+                    if (copyResult) {
+                        addLog('تم نسخ العناصر بنجاح', 'success');
+                    } else {
+                        addLog('فشل في نسخ بعض العناصر', 'warning');
+                    }
                 } else {
-                    addLog('لم يتم تحديد أي رولات للنسخ', 'info');
+                    addLog('ملاحظة: خيار النسخ غير مفعل، لن يتم نسخ أي عناصر', 'warning');
                 }
-
-                // نسخ الكاتجوريهات المحددة مع الحفاظ على الترتيب
-                if (categoriesToCopy.length > 0) {
-                    addLog(`جاري نسخ ${categoriesToCopy.length} كاتجوري مع الحفاظ على الترتيب...`, 'info');
-                    await copyCategories(categoriesToCopy);
-                } else {
-                    addLog('لم يتم تحديد أي كاتجوريهات للنسخ', 'info');
-                }
-
-                // نسخ التشانلات المحددة مع الحفاظ على الترتيب وربطها بالكاتجوريهات
-                if (channelsToCopy.length > 0) {
-                    addLog(`جاري نسخ ${channelsToCopy.length} تشانل مع الحفاظ على الترتيب والصلاحيات...`, 'info');
-                    await copyChannels(channelsToCopy);
-                } else {
-                    addLog('لم يتم تحديد أي تشانلات للنسخ', 'info');
-                }
-
-                // نسخ الإيموجيز
-                if (emojis.length > 0) {
-                    addLog(`جاري نسخ ${emojis.length} إيموجي...`, 'info');
-                    await copyEmojis();
-                }
-
+                
                 if (!shouldStop) {
-                    addLog('تمت عملية النسخ بنجاح!', 'success');
+                    addLog('تم الانتهاء من العملية بنجاح! ✓', 'success');
                     updateProgress(100);
                 } else {
-                    addLog('تم إيقاف عملية النسخ', 'warning');
+                    addLog('تم إيقاف العملية', 'warning');
                 }
-
-            } catch (error) {
-                addLog(`خطأ أثناء النسخ: ${error.message}`, 'error');
-                console.error(error);
-            } finally {
-                isProcessing = false;
-                document.getElementById('stopBtn').disabled = true;
-            }
-        }
-
-        // بدء عملية المسح ثم النسخ
-        async function startClearAndCopy() {
-            if (isProcessing) return;
-            
-            isProcessing = true;
-            shouldStop = false;
-            
-            addLog('بدء عملية المسح ثم النسخ...', 'info');
-            
-            try {
-                // مسح السيرفر الهدف
-                addLog('جاري مسح السيرفر الهدف...', 'warning');
-                await clearTargetServer();
-                addLog('تم مسح السيرفر الهدف', 'success');
-                
-                // متابعة النسخ
-                await startCopying();
 
             } catch (error) {
                 addLog(`خطأ أثناء العملية: ${error.message}`, 'error');
@@ -1097,38 +1310,55 @@
                 const clearEmojis = document.getElementById('clearEmojis').checked;
                 const skipCommunityChannels = document.getElementById('skipCommunityChannels').checked;
                 
-                // مسح التشانلات والكاتجوريهات
-                const channels = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`);
+                addLog(`خيارات المسح: الرولات=${clearRoles ? 'نعم' : 'لا'}, التشانلات=${clearTextChannels ? 'نعم' : 'لا'}, الكاتجوريهات=${clearCategories ? 'نعم' : 'لا'}`, 'info');
                 
-                for (const channel of channels) {
-                    if (shouldStop) break;
+                let totalDeleted = 0;
+                let totalFailed = 0;
+                
+                // مسح التشانلات والكاتجوريهات
+                try {
+                    const channels = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`);
                     
-                    // التحقق من نوع التشانل وبناءً على ذلك يتم مسحه أو لا
-                    let shouldDelete = false;
-                    
-                    if (channel.type === 4 && clearCategories) {
-                        shouldDelete = true;
-                    } else if (channel.type === 0 && clearTextChannels) {
-                        shouldDelete = true;
-                    } else if (channel.type === 2 && clearVoiceChannels) {
-                        shouldDelete = true;
-                    }
-                    
-                    if (shouldDelete) {
-                        try {
-                            await discordRequest(`https://discord.com/api/v9/channels/${channel.id}`, {
-                                method: 'DELETE'
-                            });
-                            addLog(`تم حذف ${getChannelTypeName(channel.type)}: ${channel.name}`, 'info');
-                            await delay(500);
-                        } catch (error) {
-                            if (error.message.includes('Cannot delete a channel required for community servers') && skipCommunityChannels) {
-                                addLog(`تم تخطي ${getChannelTypeName(channel.type)} ${channel.name} (قناة إلزامية للمجتمع)`, 'warning');
-                            } else {
-                                addLog(`فشل في حذف ${getChannelTypeName(channel.type)} ${channel.name}: ${error.message}`, 'warning');
+                    if (channels && channels.length > 0) {
+                        addLog(`تم العثور على ${channels.length} تشانل/كاتجوري للمسح`, 'info');
+                        
+                        for (const channel of channels) {
+                            if (shouldStop) break;
+                            
+                            // التحقق من نوع التشانل وبناءً على ذلك يتم مسحه أو لا
+                            let shouldDelete = false;
+                            
+                            if (channel.type === 4 && clearCategories) {
+                                shouldDelete = true;
+                            } else if (channel.type === 0 && clearTextChannels) {
+                                shouldDelete = true;
+                            } else if (channel.type === 2 && clearVoiceChannels) {
+                                shouldDelete = true;
+                            }
+                            
+                            if (shouldDelete) {
+                                try {
+                                    await discordRequest(`https://discord.com/api/v9/channels/${channel.id}`, {
+                                        method: 'DELETE'
+                                    });
+                                    addLog(`✓ تم حذف ${getChannelTypeName(channel.type)}: ${channel.name}`, 'info');
+                                    totalDeleted++;
+                                    await delay(500);
+                                } catch (error) {
+                                    if (error.message.includes('Cannot delete a channel required for community servers') && skipCommunityChannels) {
+                                        addLog(`↷ تم تخطي ${getChannelTypeName(channel.type)} ${channel.name} (قناة إلزامية للمجتمع)`, 'warning');
+                                    } else {
+                                        addLog(`✗ فشل في حذف ${getChannelTypeName(channel.type)} ${channel.name}: ${error.message}`, 'warning');
+                                        totalFailed++;
+                                    }
+                                }
                             }
                         }
+                    } else {
+                        addLog('لا توجد تشانلات أو كاتجوريهات للمسح', 'info');
                     }
+                } catch (error) {
+                    addLog(`خطأ في جلب التشانلات: ${error.message}`, 'error');
                 }
                 
                 // مسح الرولات (عدا @everyone والرولات المدارية)
@@ -1136,36 +1366,32 @@
                     addLog('جاري مسح الرولات...', 'info');
                     try {
                         const roles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
-                        addLog(`تم جلب ${roles.length} رول من السيرفر الهدف`, 'info');
                         
-                        // عرض جميع الرولات التي تم جلبها للتشخيص
-                        addLog('تفاصيل الرولات الموجودة:', 'info');
-                        roles.forEach(role => {
-                            addLog(`- ${role.name} (${role.id}) - managed: ${role.managed}, everyone: ${role.name === '@everyone'}`, 'info');
-                        });
-                        
-                        // تصفية الرولات للحذف (استبعاد @everyone والرولات المدارية فقط)
-                        const rolesToDelete = roles.filter(role => 
-                            role.name !== '@everyone' && 
-                            !role.managed
-                        );
-                        
-                        addLog(`تم العثور على ${rolesToDelete.length} رول للمسح`, 'info');
-                        
-                        if (rolesToDelete.length === 0) {
-                            addLog('لم يتم العثور على أي رولات قابلة للمسح (كل الرولات إما @everyone أو رولات مدارية)', 'warning');
-                        }
-                        
-                        for (const role of rolesToDelete) {
-                            if (shouldStop) break;
-                            try {
-                                // استخدام الدالة المبسطة لحذف الرول (بدون body)
-                                await deleteRole(targetGuildId, role.id);
-                                addLog(`تم حذف الرول: ${role.name} (${role.id})`, 'success');
-                                await delay(500);
-                            } catch (error) {
-                                addLog(`فشل في حذف الرول ${role.name}: ${error.message}`, 'warning');
+                        if (roles && roles.length > 0) {
+                            // تصفية الرولات للحذف (استبعاد @everyone والرولات المدارية فقط)
+                            const rolesToDelete = roles.filter(role => 
+                                role.name !== '@everyone' && 
+                                !role.managed
+                            );
+                            
+                            addLog(`تم العثور على ${rolesToDelete.length} رول للمسح`, 'info');
+                            
+                            for (const role of rolesToDelete) {
+                                if (shouldStop) break;
+                                try {
+                                    await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles/${role.id}`, {
+                                        method: 'DELETE'
+                                    });
+                                    addLog(`✓ تم حذف الرول: ${role.name}`, 'success');
+                                    totalDeleted++;
+                                    await delay(500);
+                                } catch (error) {
+                                    addLog(`✗ فشل في حذف الرول ${role.name}: ${error.message}`, 'warning');
+                                    totalFailed++;
+                                }
                             }
+                        } else {
+                            addLog('لا توجد رولات للمسح', 'info');
                         }
                     } catch (error) {
                         addLog(`خطأ في جلب الرولات: ${error.message}`, 'error');
@@ -1177,27 +1403,158 @@
                     addLog('جاري مسح الإيموجيز...', 'info');
                     try {
                         const emojis = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/emojis`);
-                        addLog(`تم العثور على ${emojis.length} إيموجي للمسح`, 'info');
                         
-                        for (const emoji of emojis) {
-                            if (shouldStop) break;
-                            try {
-                                // استخدام الدالة المبسطة لحذف الإيموجي (بدون body)
-                                await deleteEmoji(targetGuildId, emoji.id);
-                                addLog(`تم حذف الإيموجي: ${emoji.name}`, 'success');
-                                await delay(500);
-                            } catch (error) {
-                                addLog(`فشل في حذف الإيموجي ${emoji.name}: ${error.message}`, 'warning');
+                        if (emojis && emojis.length > 0) {
+                            addLog(`تم العثور على ${emojis.length} إيموجي للمسح`, 'info');
+                            
+                            for (const emoji of emojis) {
+                                if (shouldStop) break;
+                                try {
+                                    await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/emojis/${emoji.id}`, {
+                                        method: 'DELETE'
+                                    });
+                                    addLog(`✓ تم حذف الإيموجي: ${emoji.name}`, 'success');
+                                    totalDeleted++;
+                                    await delay(500);
+                                } catch (error) {
+                                    addLog(`✗ فشل في حذف الإيموجي ${emoji.name}: ${error.message}`, 'warning');
+                                    totalFailed++;
+                                }
                             }
+                        } else {
+                            addLog('لا توجد إيموجيز للمسح', 'info');
                         }
                     } catch (error) {
                         addLog(`خطأ في جلب الإيموجيز: ${error.message}`, 'error');
                     }
                 }
                 
-                return true;
+                addLog(`تم حذف ${totalDeleted} عنصر بنجاح، فشل في حذف ${totalFailed} عنصر`, 'info');
+                return totalFailed === 0;
+                
             } catch (error) {
                 addLog(`خطأ أثناء مسح السيرفر: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // نسخ العناصر المحددة
+        async function copySelectedItems() {
+            try {
+                const botRolesOnTop = document.getElementById('botRolesOnTop').checked;
+                const copyEveryoneRole = document.getElementById('copyEveryoneRole').checked;
+                
+                addLog(`خيار وضع رولات البوتات في الأعلى: ${botRolesOnTop ? 'مفعل ✓' : 'غير مفعل ✗'}`, 'info');
+                
+                // الحصول على العناصر المحددة من الواجهة
+                const selectedRoles = Array.from(document.querySelectorAll('#rolesList input:checked')).map(cb => cb.value);
+                const selectedCategories = Array.from(document.querySelectorAll('#categoriesList input:checked')).map(cb => cb.value);
+                const selectedChannels = Array.from(document.querySelectorAll('#channelsList input:checked')).map(cb => cb.value);
+                const selectedEmojis = Array.from(document.querySelectorAll('#emojisList input:checked')).map(cb => cb.value);
+                
+                // الحصول على العناصر المحددة من الإيديهات
+                const specificCategories = document.getElementById('specificCategories').value.split(',').filter(id => id.trim() !== '');
+                const specificChannels = document.getElementById('specificChannels').value.split(',').filter(id => id.trim() !== '');
+                const specificRoles = document.getElementById('specificRoles').value.split(',').filter(id => id.trim() !== '');
+                const specificEmojis = document.getElementById('specificEmojis').value.split(',').filter(id => id.trim() !== '');
+
+                // دمج العناصر المحددة من الواجهة والإيديهات
+                const rolesToCopy = [...new Set([...selectedRoles, ...specificRoles])];
+                const categoriesToCopy = [...new Set([...selectedCategories, ...specificCategories])];
+                const channelsToCopy = [...new Set([...selectedChannels, ...specificChannels])];
+                const emojisToCopy = [...new Set([...selectedEmojis, ...specificEmojis])];
+
+                addLog(`العناصر المحددة: ${rolesToCopy.length} رول، ${categoriesToCopy.length} كاتجوري، ${channelsToCopy.length} تشانل، ${emojisToCopy.length} إيموجي`, 'info');
+
+                // نسخ صلاحيات @everyone إذا كان الخيار مفعلاً
+                if (copyEveryoneRole) {
+                    addLog('جاري نسخ صلاحيات رول @everyone...', 'info');
+                    try {
+                        await copyEveryonePermissions();
+                    } catch (error) {
+                        addLog(`فشل في نسخ صلاحيات @everyone: ${error.message}`, 'warning');
+                    }
+                }
+
+                let successCount = 0;
+                let failCount = 0;
+
+                // نسخ الرولات المحددة
+                if (rolesToCopy.length > 0) {
+                    addLog(`جاري نسخ ${rolesToCopy.length} دور...`, 'info');
+                    try {
+                        const result = await copyRolesWithPriority(rolesToCopy, botRolesOnTop);
+                        if (result) successCount++; else failCount++;
+                    } catch (error) {
+                        addLog(`فشل في نسخ الرولات: ${error.message}`, 'error');
+                        failCount++;
+                    }
+                } else {
+                    addLog('لم يتم تحديد أي رولات للنسخ', 'info');
+                }
+
+                // نسخ الكاتجوريهات المحددة مع الحفاظ على الترتيب
+                if (categoriesToCopy.length > 0) {
+                    addLog(`جاري نسخ ${categoriesToCopy.length} كاتجوري...`, 'info');
+                    try {
+                        const result = await copyCategories(categoriesToCopy);
+                        if (result) successCount++; else failCount++;
+                    } catch (error) {
+                        addLog(`فشل في نسخ الكاتجوريهات: ${error.message}`, 'error');
+                        failCount++;
+                    }
+                } else {
+                    addLog('لم يتم تحديد أي كاتجوريهات للنسخ', 'info');
+                }
+
+                // نسخ التشانلات المحددة مع الحفاظ على الترتيب وربطها بالكاتجوريهات
+                if (channelsToCopy.length > 0) {
+                    addLog(`جاري نسخ ${channelsToCopy.length} تشانل...`, 'info');
+                    try {
+                        const result = await copyChannels(channelsToCopy);
+                        if (result) successCount++; else failCount++;
+                    } catch (error) {
+                        addLog(`فشل في نسخ التشانلات: ${error.message}`, 'error');
+                        failCount++;
+                    }
+                } else {
+                    addLog('لم يتم تحديد أي تشانلات للنسخ', 'info');
+                }
+
+                // نسخ الإيموجيز المحددة
+                if (emojisToCopy.length > 0) {
+                    addLog(`جاري نسخ ${emojisToCopy.length} إيموجي...`, 'info');
+                    try {
+                        const result = await copySelectedEmojis(emojisToCopy);
+                        if (result) successCount++; else failCount++;
+                    } catch (error) {
+                        addLog(`فشل في نسخ الإيموجيز: ${error.message}`, 'error');
+                        failCount++;
+                    }
+                } else {
+                    addLog('لم يتم تحديد أي إيموجيز للنسخ', 'info');
+                }
+
+                // بعد نسخ جميع الرولات، نرتب البوتات في الأعلى إذا كان الخيار مفعلاً
+                if (botRolesOnTop && rolesToCopy.length > 0) {
+                    addLog('جاري ترتيب رولات البوتات في الأعلى...', 'info');
+                    try {
+                        const reorderResult = await reorderBotRolesToTop();
+                        if (reorderResult) {
+                            addLog('✓ تم ترتيب رولات البوتات في الأعلى بنجاح', 'success');
+                        } else {
+                            addLog('⚠ تعذر ترتيب رولات البوتات تلقائياً، قد تحتاج لترتيبها يدوياً', 'warning');
+                        }
+                    } catch (error) {
+                        addLog(`⚠ خطأ في ترتيب رولات البوتات: ${error.message}`, 'warning');
+                    }
+                }
+
+                addLog(`تم الانتهاء من النسخ: نجاح ${successCount} من ${successCount + failCount} عملية`, 'info');
+                return failCount === 0;
+                
+            } catch (error) {
+                addLog(`خطأ أثناء نسخ العناصر: ${error.message}`, 'error');
                 return false;
             }
         }
@@ -1228,69 +1585,117 @@
                     });
                     
                     addLog('تم نسخ صلاحيات رول @everyone بنجاح', 'success');
+                    return true;
                 } else {
                     addLog('لم يتم العثور على رول @everyone في السيرفر المصدر', 'warning');
+                    return false;
                 }
                 
-                await delay(1000);
             } catch (error) {
                 addLog(`خطأ أثناء نسخ صلاحيات @everyone: ${error.message}`, 'error');
                 throw error;
             }
         }
 
-        // نسخ الرولات
-        async function copyRoles(roleIds) {
+        // نسخ الرولات مع الأولوية للبوتات
+        async function copyRolesWithPriority(roleIds, botRolesOnTop) {
             try {
                 // الحصول على جميع الرولات من المصدر
                 const allRoles = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/roles`);
+                
+                if (!allRoles) {
+                    addLog('فشل في جلب الرولات من السيرفر المصدر', 'error');
+                    return false;
+                }
                 
                 // تصفية الرولات المطلوبة فقط
                 const rolesToCopy = allRoles.filter(role => 
                     roleIds.includes(role.id) && role.name !== '@everyone'
                 );
                 
-                // ترتيب الرولات حسب الترتيب في السيرفر المصدر (من الأعلى إلى الأسفل)
-                rolesToCopy.sort((a, b) => b.position - a.position);
+                if (rolesToCopy.length === 0) {
+                    addLog('لم يتم العثور على رولات للنسخ بعد التصفية', 'warning');
+                    return false;
+                }
+                
+                // تصنيف الرولات إلى بوتات وعادية
+                const botRoles = rolesToCopy.filter(role => role.managed);
+                const normalRoles = rolesToCopy.filter(role => !role.managed);
+                
+                addLog(`تم العثور على ${botRoles.length} رول بوت و ${normalRoles.length} رول عادي للنسخ`, 'info');
                 
                 // إنشاء مصفوفة لتخزين معلومات الرولات الجديدة
                 const newRoles = [];
+                let createdCount = 0;
+                let failedCount = 0;
                 
-                for (const role of rolesToCopy) {
+                // تحديد الترتيب بناءً على الخيار
+                let rolesOrder;
+                if (botRolesOnTop) {
+                    // البوتات أولاً ثم الرولات العادية
+                    rolesOrder = [...botRoles, ...normalRoles];
+                    addLog('سيتم إنشاء رولات البوتات أولاً ثم الرولات العادية', 'info');
+                } else {
+                    // الحفاظ على الترتيب الأصلي
+                    rolesOrder = rolesToCopy.sort((a, b) => b.position - a.position);
+                    addLog('سيتم الحفاظ على الترتيب الأصلي للرولات', 'info');
+                }
+                
+                // إنشاء الرولات
+                for (const role of rolesOrder) {
                     if (shouldStop) break;
                     
-                    addLog(`جاري نسخ الرول: ${role.name}`, 'info');
+                    addLog(`جاري إنشاء الرول: ${role.name}${role.managed ? ' (بوت)' : ''}`, 'info');
                     
-                    // إنشاء الرول في السيرفر الهدف
-                    const newRole = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
-                        method: 'POST',
-                        body: JSON.stringify({
+                    try {
+                        // إعداد بيانات الرول
+                        const roleData = {
                             name: role.name,
                             color: role.color,
                             hoist: role.hoist,
                             mentionable: role.mentionable,
                             permissions: role.permissions
-                        })
-                    });
+                        };
+                        
+                        // إذا كان خيار وضع البوتات في الأعلى مفعلاً، نعطي البوتات positions عالية
+                        if (botRolesOnTop && role.managed) {
+                            roleData.position = 1000 - botRoles.indexOf(role); // positions عالية
+                        }
+                        
+                        // إنشاء الرول في السيرفر الهدف
+                        const newRole = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
+                            method: 'POST',
+                            body: JSON.stringify(roleData)
+                        });
+                        
+                        roleMap[role.id] = newRole.id;
+                        newRoles.push({
+                            id: newRole.id,
+                            name: newRole.name,
+                            originalPosition: role.position,
+                            isBotRole: role.managed
+                        });
+                        
+                        addLog(`✓ تم إنشاء الرول: ${role.name}${role.managed ? ' (بوت)' : ''}`, 'success');
+                        createdCount++;
+                        await delay(1000);
+                    } catch (error) {
+                        addLog(`✗ فشل في إنشاء الرول ${role.name}: ${error.message}`, 'error');
+                        failedCount++;
+                    }
                     
-                    roleMap[role.id] = newRole.id;
-                    newRoles.push({
-                        id: newRole.id,
-                        name: newRole.name,
-                        originalPosition: role.position
-                    });
-                    
-                    addLog(`تم نسخ الرول: ${role.name}`, 'success');
-                    await delay(1000);
-                    
-                    updateProgress(40 + (rolesToCopy.indexOf(role) / rolesToCopy.length * 30));
+                    updateProgress(40 + (rolesOrder.indexOf(role) / rolesOrder.length * 30));
                 }
                 
-                // إعادة ترتيب الرولات بعد إنشائها جميعاً
-                if (!shouldStop && newRoles.length > 0) {
-                    addLog('جاري إعادة ترتيب الرولات...', 'info');
-                    await reorderRoles(newRoles);
+                addLog(`تم إنشاء ${createdCount} رول بنجاح، فشل في إنشاء ${failedCount} رول`, 'info');
+                
+                // إعادة الترتيب إذا كان هناك رولات بوتات
+                if (botRolesOnTop && botRoles.length > 0 && newRoles.length > 0) {
+                    addLog('جاري إعادة ترتيب الرولات لوضع البوتات في الأعلى...', 'info');
+                    await reorderRolesWithBotPriority(newRoles);
                 }
+                
+                return failedCount === 0;
                 
             } catch (error) {
                 addLog(`خطأ أثناء نسخ الرولات: ${error.message}`, 'error');
@@ -1298,45 +1703,336 @@
             }
         }
 
-        // إعادة ترتيب الرولات
-        async function reorderRoles(newRoles) {
+        // إعادة ترتيب الرولات مع وضع البوتات في الأعلى
+        async function reorderRolesWithBotPriority(newRoles) {
             try {
-                // الحصول على الرولات الحالية في السيرفر الهدف
-                const targetRoles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
+                addLog('جاري إعادة ترتيب الرولات لوضع البوتات في الأعلى...', 'info');
                 
-                // تصفية الرولات الجديدة فقط
-                const newRoleIds = newRoles.map(r => r.id);
-                const rolesToReorder = targetRoles.filter(role => newRoleIds.includes(role.id));
+                // الحصول على جميع الرولات في السيرفر الهدف
+                const allTargetRoles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
                 
-                // إنشاء خريطة للرولات الجديدة مع مواقعها الأصلية
-                const positionMap = {};
-                newRoles.forEach(role => {
-                    positionMap[role.id] = role.originalPosition;
+                if (!allTargetRoles) {
+                    addLog('فشل في جلب الرولات من السيرفر الهدف', 'error');
+                    return false;
+                }
+                
+                // فصل الرولات إلى مجموعات
+                const botRolesNew = newRoles.filter(role => role.isBotRole);
+                const normalRolesNew = newRoles.filter(role => !role.isBotRole);
+                const existingRoles = allTargetRoles.filter(role => 
+                    !newRoles.some(newRole => newRole.id === role.id) && 
+                    role.name !== '@everyone'
+                );
+                
+                // فرز الرولات الحالية بحيث البوتات في الأسفل (نرتبها لاحقاً)
+                const existingBotRoles = existingRoles.filter(role => role.managed);
+                const existingNormalRoles = existingRoles.filter(role => !role.managed);
+                
+                // بناء ترتيب جديد مع البوتات أولاً
+                const reorderData = [];
+                let position = 100; // نبدأ من position عالية
+                
+                // 1. رولات البوتات الجديدة أولاً
+                botRolesNew.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
                 });
                 
-                // ترتيب الرولات الجديدة حسب مواقعها الأصلية (من الأعلى إلى الأسفل)
-                rolesToReorder.sort((a, b) => positionMap[b.id] - positionMap[a.id]);
+                // 2. رولات البوتات الحالية
+                existingBotRoles.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
+                });
                 
-                // إعداد بيانات إعادة الترتيب
-                const reorderData = rolesToReorder.map((role, index) => ({
-                    id: role.id,
-                    position: index + 1 // نبدأ من 1 لأن 0 محجوز لـ @everyone
-                }));
+                // 3. الرولات العادية الجديدة
+                normalRolesNew.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
+                });
+                
+                // 4. الرولات العادية الحالية
+                existingNormalRoles.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
+                });
+                
+                // 5. رول @everyone في الأسفل
+                const everyoneRole = allTargetRoles.find(role => role.name === '@everyone');
+                if (everyoneRole) {
+                    reorderData.push({
+                        id: everyoneRole.id,
+                        position: 0
+                    });
+                }
                 
                 // إرسال طلب إعادة الترتيب
-                if (reorderData.length > 0) {
+                try {
                     await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
                         method: 'PATCH',
                         body: JSON.stringify(reorderData)
                     });
                     
-                    addLog(`تم إعادة ترتيب ${reorderData.length} رول بنجاح`, 'success');
+                    addLog(`✓ تم إعادة ترتيب ${reorderData.length} رول (${botRolesNew.length} بوت جديد، ${existingBotRoles.length} بوت موجود في الأعلى)`, 'success');
+                    return true;
+                } catch (error) {
+                    // إذا فشل بسبب صلاحيات، ننبه المستخدم
+                    if (error.message.includes('50001') || error.message.includes('Missing Permissions')) {
+                        addLog('⚠ لا يمكن إعادة ترتيب الرولات تلقائياً بسبب صلاحيات محدودة', 'warning');
+                        addLog('يمكنك ترتيب الرولات يدوياً في إعدادات السيرفر', 'info');
+                        return false;
+                    }
+                    addLog(`✗ فشل في إعادة ترتيب الرولات: ${error.message}`, 'error');
+                    return false;
                 }
                 
             } catch (error) {
                 addLog(`خطأ أثناء إعادة ترتيب الرولات: ${error.message}`, 'warning');
-                // لا نرمي خطأ هنا لأن العملية الأساسية قد اكتملت
+                return false;
             }
+        }
+
+        // دالة خاصة لترتيب رولات البوتات في الأعلى بعد النسخ
+        async function reorderBotRolesToTop() {
+            try {
+                addLog('جاري ترتيب رولات البوتات في الأعلى...', 'info');
+                
+                // الحصول على جميع الرولات في السيرفر الهدف
+                const allTargetRoles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
+                
+                if (!allTargetRoles) {
+                    addLog('فشل في جلب الرولات', 'error');
+                    return false;
+                }
+                
+                // فصل الرولات
+                const botRoles = allTargetRoles.filter(role => role.managed && role.name !== '@everyone');
+                const normalRoles = allTargetRoles.filter(role => !role.managed && role.name !== '@everyone');
+                const everyoneRole = allTargetRoles.find(role => role.name === '@everyone');
+                
+                if (botRoles.length === 0) {
+                    addLog('لا توجد رولات بوت في السيرفر الهدف', 'info');
+                    return true;
+                }
+                
+                addLog(`تم العثور على ${botRoles.length} رول بوت و ${normalRoles.length} رول عادي`, 'info');
+                
+                // بناء ترتيب جديد
+                const reorderData = [];
+                let position = botRoles.length + normalRoles.length + 1;
+                
+                // 1. رولات البوتات أولاً (مرتبة تنازلياً حسب position الأصلي)
+                botRoles.sort((a, b) => b.position - a.position);
+                botRoles.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
+                });
+                
+                // 2. الرولات العادية (مرتبة تنازلياً حسب position الأصلي)
+                normalRoles.sort((a, b) => b.position - a.position);
+                normalRoles.forEach(role => {
+                    reorderData.push({
+                        id: role.id,
+                        position: position--
+                    });
+                });
+                
+                // 3. رول @everyone في الأسفل
+                if (everyoneRole) {
+                    reorderData.push({
+                        id: everyoneRole.id,
+                        position: 0
+                    });
+                }
+                
+                // إرسال طلب إعادة الترتيب
+                try {
+                    await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`, {
+                        method: 'PATCH',
+                        body: JSON.stringify(reorderData)
+                    });
+                    
+                    addLog(`✓ تم ترتيب ${botRoles.length} رول بوت في الأعلى بنجاح`, 'success');
+                    return true;
+                } catch (error) {
+                    addLog(`⚠ تعذر ترتيب الرولات تلقائياً: ${error.message}`, 'warning');
+                    addLog('نصيحة: تأكد من أن رتبتك أعلى من الرولات التي تحاول تحريكها', 'info');
+                    return false;
+                }
+                
+            } catch (error) {
+                addLog(`خطأ أثناء ترتيب رولات البوتات: ${error.message}`, 'warning');
+                return false;
+            }
+        }
+
+        // ============================================
+        // أدوات منفصلة جديدة
+        // ============================================
+
+        // أداة منفصلة لترتيب رولات البوتات
+        async function reorderBotRolesStandalone() {
+            if (!targetGuildId) {
+                addLog('يرجى إدخال أيدي السيرفر الهدف أولاً', 'error');
+                return;
+            }
+            
+            const userToken = document.getElementById('userToken').value;
+            if (!userToken) {
+                addLog('يرجى إدخال التوكن الشخصي أولاً', 'error');
+                return;
+            }
+            
+            addLog('بدء أداة ترتيب رولات البوتات بشكل منفصل...', 'info');
+            addLog('جاري ترتيب جميع رولات البوتات في السيرفر الهدف في الأعلى...', 'info');
+            
+            try {
+                // تفعيل زر الإيقاف
+                document.getElementById('stopBtn').disabled = false;
+                
+                const result = await reorderBotRolesToTop();
+                
+                if (result) {
+                    addLog('✓ تم ترتيب رولات البوتات في الأعلى بنجاح!', 'success');
+                    // تحديث قائمة الرولات الحالية
+                    await showCurrentRoles();
+                } else {
+                    addLog('⚠ تعذر ترتيب رولات البوتات بشكل كامل', 'warning');
+                }
+            } catch (error) {
+                addLog(`✗ خطأ في أداة ترتيب الرولات: ${error.message}`, 'error');
+            } finally {
+                document.getElementById('stopBtn').disabled = true;
+            }
+        }
+
+        // عرض الرولات الحالية في السيرفر الهدف
+        async function showCurrentRoles() {
+            if (!targetGuildId) {
+                addLog('يرجى إدخال أيدي السيرفر الهدف أولاً', 'error');
+                return;
+            }
+            
+            const userToken = document.getElementById('userToken').value;
+            if (!userToken) {
+                addLog('يرجى إدخال التوكن الشخصي أولاً', 'error');
+                return;
+            }
+            
+            addLog('جاري جلب الرولات الحالية من السيرفر الهدف...', 'info');
+            
+            try {
+                const allTargetRoles = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/roles`);
+                
+                if (!allTargetRoles) {
+                    addLog('فشل في جلب الرولات من السيرفر الهدف', 'error');
+                    return;
+                }
+                
+                currentTargetRoles = allTargetRoles;
+                
+                // تصنيف الرولات
+                const botRoles = allTargetRoles.filter(role => role.managed && role.name !== '@everyone');
+                const normalRoles = allTargetRoles.filter(role => !role.managed && role.name !== '@everyone');
+                const everyoneRole = allTargetRoles.find(role => role.name === '@everyone');
+                
+                // عرض الإحصائيات
+                const statsDiv = document.getElementById('rolesStats');
+                statsDiv.innerHTML = `
+                    <div>إجمالي الرولات: ${allTargetRoles.length}</div>
+                    <div>رولات البوتات: ${botRoles.length}</div>
+                    <div>رولات عادية: ${normalRoles.length}</div>
+                    <div>رول @everyone: ${everyoneRole ? 'موجود ✓' : 'غير موجود ✗'}</div>
+                `;
+                
+                // عرض الرولات في القائمة
+                const container = document.getElementById('currentRolesList');
+                container.innerHTML = '';
+                
+                // إضافة رول @everyone أولاً إذا كان موجوداً
+                if (everyoneRole) {
+                    const everyoneEntry = document.createElement('div');
+                    everyoneEntry.className = 'item-entry';
+                    everyoneEntry.style.backgroundColor = '#1a1a2e';
+                    everyoneEntry.innerHTML = `
+                        <span class="item-id">${everyoneRole.id}</span>
+                        <span class="item-name">@everyone (رول أساسي)</span>
+                        <span style="color: #aaa;">Position: ${everyoneRole.position}</span>
+                    `;
+                    container.appendChild(everyoneEntry);
+                }
+                
+                // عرض رولات البوتات
+                if (botRoles.length > 0) {
+                    const botHeader = document.createElement('div');
+                    botHeader.className = 'item-entry';
+                    botHeader.style.backgroundColor = '#2d2d42';
+                    botHeader.style.fontWeight = 'bold';
+                    botHeader.innerHTML = '<span>🤖 رولات البوتات (المدارة)</span>';
+                    container.appendChild(botHeader);
+                    
+                    botRoles.sort((a, b) => b.position - a.position).forEach(role => {
+                        const itemEntry = document.createElement('div');
+                        itemEntry.className = 'item-entry';
+                        itemEntry.style.backgroundColor = '#2a2a3e';
+                        itemEntry.innerHTML = `
+                            <span class="item-id">${role.id}</span>
+                            <span class="item-name">🤖 ${role.name} (بوت)</span>
+                            <span style="color: #FFD700;">Position: ${role.position}</span>
+                        `;
+                        container.appendChild(itemEntry);
+                    });
+                }
+                
+                // عرض الرولات العادية
+                if (normalRoles.length > 0) {
+                    const normalHeader = document.createElement('div');
+                    normalHeader.className = 'item-entry';
+                    normalHeader.style.backgroundColor = '#2d2d42';
+                    normalHeader.style.fontWeight = 'bold';
+                    normalHeader.innerHTML = '<span>👤 الرولات العادية</span>';
+                    container.appendChild(normalHeader);
+                    
+                    normalRoles.sort((a, b) => b.position - a.position).forEach(role => {
+                        const itemEntry = document.createElement('div');
+                        itemEntry.className = 'item-entry';
+                        itemEntry.innerHTML = `
+                            <span class="item-id">${role.id}</span>
+                            <span class="item-name">${role.name}</span>
+                            <span style="color: #aaa;">Position: ${role.position}</span>
+                        `;
+                        container.appendChild(itemEntry);
+                    });
+                }
+                
+                addLog(`✓ تم جلب ${allTargetRoles.length} رول من السيرفر الهدف (${botRoles.length} بوت، ${normalRoles.length} عادي)`, 'success');
+                
+                // فتح تبويب الرولات الحالية
+                openTab('current-roles');
+                
+            } catch (error) {
+                addLog(`✗ خطأ في جلب الرولات الحالية: ${error.message}`, 'error');
+            }
+        }
+
+        // تحديث قائمة الرولات الحالية
+        async function refreshCurrentRoles() {
+            await showCurrentRoles();
+        }
+
+        // ترتيب رولات البوتات من تبويب الرولات الحالية
+        async function reorderCurrentBotRoles() {
+            addLog('جاري ترتيب رولات البوتات من القائمة الحالية...', 'info');
+            await reorderBotRolesStandalone();
         }
 
         // نسخ الكاتجوريهات
@@ -1345,43 +2041,66 @@
                 // الحصول على جميع الكاتجوريهات من المصدر
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 
+                if (!allChannels) {
+                    addLog('فشل في جلب الكاتجوريهات من السيرفر المصدر', 'error');
+                    return false;
+                }
+                
                 // تصفية الكاتجوريهات المطلوبة فقط
                 const categoriesToCopy = allChannels.filter(channel => 
                     channel.type === 4 && categoryIds.includes(channel.id)
                 );
                 
+                if (categoriesToCopy.length === 0) {
+                    addLog('لم يتم العثور على كاتجوريهات للنسخ', 'warning');
+                    return false;
+                }
+                
                 // ترتيب الكاتجوريهات حسب الترتيب في السيرفر المصدر
                 categoriesToCopy.sort((a, b) => a.position - b.position);
+                
+                let createdCount = 0;
+                let failedCount = 0;
                 
                 for (const category of categoriesToCopy) {
                     if (shouldStop) break;
                     
                     addLog(`جاري نسخ الكاتجوري: ${category.name}`, 'info');
                     
-                    // إعداد بيانات الكاتجوري مع الصلاحيات
-                    const categoryData = {
-                        name: category.name,
-                        type: 4,
-                        position: category.position
-                    };
-                    
-                    // إضافة الصلاحيات إذا كانت موجودة
-                    if (category.permission_overwrites && category.permission_overwrites.length > 0) {
-                        categoryData.permission_overwrites = processPermissionOverwrites(category.permission_overwrites);
+                    try {
+                        // إعداد بيانات الكاتجوري مع الصلاحيات
+                        const categoryData = {
+                            name: category.name,
+                            type: 4,
+                            position: category.position
+                        };
+                        
+                        // إضافة الصلاحيات إذا كانت موجودة
+                        if (category.permission_overwrites && category.permission_overwrites.length > 0) {
+                            categoryData.permission_overwrites = processPermissionOverwrites(category.permission_overwrites);
+                        }
+                        
+                        // إنشاء الكاتجوري في السيرفر الهدف
+                        const newCategory = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
+                            method: 'POST',
+                            body: JSON.stringify(categoryData)
+                        });
+                        
+                        categoryMap[category.id] = newCategory.id;
+                        addLog(`✓ تم نسخ الكاتجوري: ${category.name}`, 'success');
+                        createdCount++;
+                        await delay(1000);
+                    } catch (error) {
+                        addLog(`✗ فشل في نسخ الكاتجوري ${category.name}: ${error.message}`, 'error');
+                        failedCount++;
                     }
-                    
-                    // إنشاء الكاتجوري في السيرفر الهدف
-                    const newCategory = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
-                        method: 'POST',
-                        body: JSON.stringify(categoryData)
-                    });
-                    
-                    categoryMap[category.id] = newCategory.id;
-                    addLog(`تم نسخ الكاتجوري: ${category.name}`, 'success');
-                    await delay(1000);
                     
                     updateProgress(70 + (categoriesToCopy.indexOf(category) / categoriesToCopy.length * 15));
                 }
+                
+                addLog(`تم إنشاء ${createdCount} كاتجوري بنجاح، فشل في إنشاء ${failedCount} كاتجوري`, 'info');
+                return failedCount === 0;
+                
             } catch (error) {
                 addLog(`خطأ أثناء نسخ الكاتجوريهات: ${error.message}`, 'error');
                 throw error;
@@ -1394,62 +2113,98 @@
                 // الحصول على جميع التشانلات من المصدر
                 const allChannels = await discordRequest(`https://discord.com/api/v9/guilds/${sourceGuildId}/channels`);
                 
+                if (!allChannels) {
+                    addLog('فشل في جلب التشانلات من السيرفر المصدر', 'error');
+                    return false;
+                }
+                
                 // تصفية التشانلات المطلوبة فقط
                 const channelsToCopy = allChannels.filter(channel => 
                     channelIds.includes(channel.id) && channel.type !== 4
                 );
                 
+                if (channelsToCopy.length === 0) {
+                    addLog('لم يتم العثور على تشانلات للنسخ', 'warning');
+                    return false;
+                }
+                
                 // ترتيب التشانلات حسب الترتيب في السيرفر المصدر
                 channelsToCopy.sort((a, b) => a.position - b.position);
+                
+                let createdCount = 0;
+                let failedCount = 0;
                 
                 for (const channel of channelsToCopy) {
                     if (shouldStop) break;
                     
                     addLog(`جاري نسخ التشانل: ${channel.name}`, 'info');
                     
-                    // إعداد بيانات التشانل
-                    const channelData = {
-                        name: channel.name,
-                        type: channel.type,
-                        position: channel.position,
-                        topic: channel.topic || undefined,
-                        nsfw: channel.nsfw || false,
-                        bitrate: channel.bitrate || undefined,
-                        user_limit: channel.user_limit || undefined,
-                        rate_limit_per_user: channel.rate_limit_per_user || undefined
-                    };
-                    
-                    // إضافة الصلاحيات إذا كانت موجودة
-                    if (channel.permission_overwrites && channel.permission_overwrites.length > 0) {
-                        channelData.permission_overwrites = processPermissionOverwrites(channel.permission_overwrites);
+                    try {
+                        // إعداد بيانات التشانل
+                        const channelData = {
+                            name: channel.name,
+                            type: channel.type,
+                            position: channel.position,
+                            topic: channel.topic || undefined,
+                            nsfw: channel.nsfw || false,
+                            bitrate: channel.bitrate || undefined,
+                            user_limit: channel.user_limit || undefined,
+                            rate_limit_per_user: channel.rate_limit_per_user || undefined
+                        };
+                        
+                        // إضافة الصلاحيات إذا كانت موجودة
+                        if (channel.permission_overwrites && channel.permission_overwrites.length > 0) {
+                            channelData.permission_overwrites = processPermissionOverwrites(channel.permission_overwrites);
+                        }
+                        
+                        // إذا كانت التشانل تابعة لكاتجوري، نبحث عن الكاتجوري المناظرة في الهدف
+                        if (channel.parent_id && categoryMap[channel.parent_id]) {
+                            channelData.parent_id = categoryMap[channel.parent_id];
+                        }
+                        
+                        // إنشاء التشانل في السيرفر الهدف
+                        const newChannel = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
+                            method: 'POST',
+                            body: JSON.stringify(channelData)
+                        });
+                        
+                        addLog(`✓ تم نسخ التشانل: ${channel.name}`, 'success');
+                        createdCount++;
+                        await delay(1000);
+                    } catch (error) {
+                        addLog(`✗ فشل في نسخ التشانل ${channel.name}: ${error.message}`, 'error');
+                        failedCount++;
                     }
-                    
-                    // إذا كانت التشانل تابعة لكاتجوري، نبحث عن الكاتجوري المناظرة في الهدف
-                    if (channel.parent_id && categoryMap[channel.parent_id]) {
-                        channelData.parent_id = categoryMap[channel.parent_id];
-                    }
-                    
-                    // إنشاء التشانل في السيرفر الهدف
-                    const newChannel = await discordRequest(`https://discord.com/api/v9/guilds/${targetGuildId}/channels`, {
-                        method: 'POST',
-                        body: JSON.stringify(channelData)
-                    });
-                    
-                    addLog(`تم نسخ التشانل: ${channel.name}`, 'success');
-                    await delay(1000);
                     
                     updateProgress(85 + (channelsToCopy.indexOf(channel) / channelsToCopy.length * 15));
                 }
+                
+                addLog(`تم إنشاء ${createdCount} تشانل بنجاح، فشل في إنشاء ${failedCount} تشانل`, 'info');
+                return failedCount === 0;
+                
             } catch (error) {
                 addLog(`خطأ أثناء نسخ التشانلات: ${error.message}`, 'error');
                 throw error;
             }
         }
 
-        // نسخ الإيموجيز
-        async function copyEmojis() {
+        // نسخ الإيموجيز المحددة
+        async function copySelectedEmojis(emojiIds) {
             try {
-                for (const emoji of emojis) {
+                // تصفية الإيموجيز المطلوبة فقط
+                const emojisToCopy = emojis.filter(emoji => emojiIds.includes(emoji.id));
+                
+                if (emojisToCopy.length === 0) {
+                    addLog('لم يتم العثور على إيموجيز للنسخ', 'warning');
+                    return false;
+                }
+                
+                addLog(`جاري نسخ ${emojisToCopy.length} إيموجي...`, 'info');
+                
+                let createdCount = 0;
+                let failedCount = 0;
+                
+                for (const emoji of emojisToCopy) {
                     if (shouldStop) break;
                     
                     addLog(`جاري نسخ الإيموجي: ${emoji.name}`, 'info');
@@ -1479,12 +2234,18 @@
                             })
                         });
                         
-                        addLog(`تم نسخ الإيموجي: ${emoji.name}`, 'success');
+                        addLog(`✓ تم نسخ الإيموجي: ${emoji.name}${emoji.animated ? ' (متحرك)' : ''}`, 'success');
+                        createdCount++;
                         await delay(1000);
                     } catch (error) {
-                        addLog(`فشل في نسخ الإيموجي ${emoji.name}: ${error.message}`, 'warning');
+                        addLog(`✗ فشل في نسخ الإيموجي ${emoji.name}: ${error.message}`, 'error');
+                        failedCount++;
                     }
                 }
+                
+                addLog(`تم إنشاء ${createdCount} إيموجي بنجاح، فشل في إنشاء ${failedCount} إيموجي`, 'info');
+                return failedCount === 0;
+                
             } catch (error) {
                 addLog(`خطأ أثناء نسخ الإيموجيز: ${error.message}`, 'error');
                 throw error;
@@ -1513,6 +2274,7 @@
         // إضافة بعض الرسائل الأولية للسجل
         addLog('أهلاً بك في أداة نسخ السيرفرات', 'info');
         addLog('يمكنك استخدام هذه الأداة لنسخ التشانلات والكاتجوريهات والرولات من سيرفر إلى آخر', 'info');
+        addLog('الآن يمكنك استخدام أداة ترتيب رولات البوتات بشكل منفصل بدون نسخ!', 'success');
     </script>
 </body>
 </html>
