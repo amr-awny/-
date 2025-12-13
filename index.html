@@ -127,11 +127,44 @@
             color: var(--text-color);
         }
 
+        /* تخصيص checkboxes */
         .checkbox-group input[type="checkbox"] {
             margin-left: 8px;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #333;
+            border: 2px solid #555;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .checkbox-group input[type="checkbox"]:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .checkbox-group input[type="checkbox"]:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .checkbox-group input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
         }
 
         button {
@@ -143,7 +176,7 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
             display: block;
             width: 100%;
             margin: 10px 0;
@@ -151,12 +184,20 @@
 
         button:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         button:disabled {
             background: #666;
             color: #999;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .log-container {
@@ -183,14 +224,32 @@
 
         .log-success {
             border-left-color: var(--success-color);
+            color: #4caf50;
+        }
+
+        .log-success::before {
+            content: "✓ ";
+            font-weight: bold;
         }
 
         .log-error {
             border-left-color: var(--error-color);
+            color: #f44336;
+        }
+
+        .log-error::before {
+            content: "✗ ";
+            font-weight: bold;
         }
 
         .log-warning {
             border-left-color: var(--warning-color);
+            color: #ff9800;
+        }
+
+        .log-warning::before {
+            content: "⚠ ";
+            font-weight: bold;
         }
 
         .warning-box {
@@ -200,6 +259,12 @@
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
+        }
+
+        .warning-box::before {
+            content: "⚠ ";
+            font-weight: bold;
+            font-size: 1.2em;
         }
 
         .specific-items {
@@ -251,6 +316,10 @@
             color: white;
         }
 
+        .button-success:hover {
+            background: linear-gradient(to right, #45a049, #3d8b40);
+        }
+
         .items-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -291,8 +360,38 @@
             background-color: #3a3a3a;
         }
 
-        .item-entry input {
+        .item-entry input[type="checkbox"] {
             margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #444;
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .item-entry input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .item-entry input[type="checkbox"]:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .item-entry input[type="checkbox"]:hover {
+            border-color: var(--secondary-color);
         }
 
         .item-name {
@@ -325,11 +424,13 @@
             text-align: center;
             transition: background-color 0.3s;
             min-width: 120px;
+            border-radius: 5px 5px 0 0;
         }
 
         .tab-btn.active {
             background: var(--primary-color);
             color: #000;
+            font-weight: bold;
         }
 
         .tab-content {
@@ -337,6 +438,7 @@
             border: 1px solid #444;
             border-top: none;
             background-color: #1E1E1E;
+            border-radius: 0 0 5px 5px;
         }
 
         .tab-pane {
@@ -397,6 +499,15 @@
 
         .instructions li {
             margin-bottom: 10px;
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .instructions li::before {
+            content: "→";
+            color: var(--primary-color);
+            position: absolute;
+            right: 0;
         }
 
         .clear-options {
@@ -426,10 +537,45 @@
             padding: 8px;
             border-radius: 4px;
             background-color: #333;
+            transition: background-color 0.2s;
         }
 
-        .clear-option-item input {
+        .clear-option-item:hover {
+            background-color: #3a3a3a;
+        }
+
+        .clear-option-item input[type="checkbox"] {
             margin-left: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #444;
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .clear-option-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .clear-option-item input[type="checkbox"]:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .clear-option-item input[type="checkbox"]:hover {
+            border-color: var(--secondary-color);
         }
 
         .bot-roles-option {
@@ -472,6 +618,11 @@
             border-radius: 8px;
             padding: 15px;
             border: 1px solid #444;
+            transition: transform 0.2s;
+        }
+
+        .action-option-item:hover {
+            transform: translateY(-2px);
         }
 
         .action-option-item h4 {
@@ -526,6 +677,40 @@
             border-radius: 4px;
         }
 
+        .emoji-item input[type="checkbox"] {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #444;
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .emoji-item input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .emoji-item input[type="checkbox"]:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .emoji-item input[type="checkbox"]:hover {
+            border-color: var(--secondary-color);
+        }
+
         .debug-info {
             background-color: rgba(255, 215, 0, 0.05);
             border: 1px solid rgba(255, 215, 0, 0.2);
@@ -562,6 +747,11 @@
             border-radius: 8px;
             padding: 15px;
             border: 1px solid #444;
+            transition: transform 0.2s;
+        }
+
+        .tool-item:hover {
+            transform: translateY(-2px);
         }
 
         .tool-item h4 {
@@ -576,6 +766,57 @@
             color: #aaa;
             font-size: 0.9em;
             margin-bottom: 15px;
+        }
+
+        /* علامات التحديد في السجل */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 5px;
+        }
+
+        .status-indicator.success::before {
+            content: "✓";
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .status-indicator.error::before {
+            content: "✗";
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .status-indicator.warning::before {
+            content: "⚠";
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .status-indicator.info::before {
+            content: "ℹ";
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        /* تخصيص scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
         }
 
         @media (max-width: 768px) {
@@ -612,6 +853,101 @@
                 padding: 8px 10px;
                 font-size: 14px;
             }
+            
+            .checkbox-group input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .item-entry input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        /* تحسينات للرسائل */
+        .success-message {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .success-message::before {
+            content: "✓ ";
+        }
+
+        .error-message {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .error-message::before {
+            content: "✗ ";
+        }
+
+        .info-message {
+            color: #3498db;
+        }
+
+        .info-message::before {
+            content: "ℹ ";
+        }
+
+        /* تلميحات عند hover */
+        [title] {
+            position: relative;
+        }
+
+        [title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+
+        /* تأثيرات للعناصر المحددة */
+        .selected-item {
+            background-color: rgba(255, 215, 0, 0.1) !important;
+            border: 1px solid rgba(255, 215, 0, 0.3) !important;
+        }
+
+        /* أزرار التحكم في التحديد */
+        .selection-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .selection-btn {
+            padding: 8px 15px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .selection-btn:hover {
+            background: #555;
+        }
+
+        .selection-btn.select-all {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .selection-btn.deselect-all {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
         }
     </style>
 </head>
@@ -623,13 +959,13 @@
         </div>
 
         <div class="instructions">
-            <h3>كيفية استخدام الأداة:</h3>
+            <h3><i class="fas fa-info-circle"></i> كيفية استخدام الأداة:</h3>
             <ol>
                 <li>أدخل التوكن الخاص بك من Discord (إعدادات → Advanced → Developer Mode)</li>
                 <li>أدخل أيدي السيرفر المصدر والسيرفر الهدف (Enable Developer Mode → Right-click on server → Copy ID)</li>
                 <li>اضغط على "الاتصال بالسيرفرات وعرض العناصر"</li>
                 <li>اختر العناصر التي تريد نسخها (تفعيل خيار "نسخ عناصر من السيرفر المصدر" مهم!)</li>
-                <li>اضغط على "بدء العملية"</li>
+                <li>اضغط على "بدء عملية النسخ"</li>
             </ol>
         </div>
 
@@ -639,64 +975,64 @@
         </div>
 
         <div class="warning-box">
-            <strong>تحذير:</strong> هذه الأداة تستخدم التوكن الشخصي الخاص بك. تأكد من أنك تفهم المخاطر قبل المتابعة.
+            <strong>تنبيه:</strong> هذه الأداة تستخدم التوكن الشخصي الخاص بك. تأكد من أنك تفهم المخاطر قبل المتابعة.
             لا تشارك التوكن الخاص بك مع أي شخص واحذف التوكن بعد الانتهاء من الاستخدام.
         </div>
 
         <div class="form-section">
-            <h2>المعلومات الأساسية</h2>
+            <h2><i class="fas fa-info-circle"></i> المعلومات الأساسية</h2>
             <div class="input-group">
-                <label for="userToken">التوكن الشخصي</label>
+                <label for="userToken"><i class="fas fa-key"></i> التوكن الشخصي</label>
                 <input type="password" id="userToken" placeholder="أدخل التوكن الشخصي الخاص بك">
             </div>
             <div class="input-group">
-                <label for="sourceGuildId">أيدي السيرفر المصدر</label>
+                <label for="sourceGuildId"><i class="fas fa-database"></i> أيدي السيرفر المصدر</label>
                 <input type="text" id="sourceGuildId" placeholder="أدخل أيدي السيرفر المصدر">
             </div>
             <div class="input-group">
-                <label for="targetGuildId">أيدي السيرفر الهدف</label>
+                <label for="targetGuildId"><i class="fas fa-bullseye"></i> أيدي السيرفر الهدف</label>
                 <input type="text" id="targetGuildId" placeholder="أدخل أيدي السيرفر الهدف">
             </div>
             
             <!-- خيارات العملية -->
             <div class="action-options">
-                <h3>خيارات العملية</h3>
+                <h3><i class="fas fa-cogs"></i> خيارات العملية</h3>
                 <div class="action-options-grid">
                     <div class="action-option-item">
                         <h4><i class="fas fa-copy"></i> نوع العملية</h4>
                         <div class="checkbox-group">
-                            <label>
+                            <label title="تفعيل هذا الخيار للسماح بنسخ العناصر">
                                 <input type="checkbox" id="copyOption" onchange="toggleCopyOptions()" checked>
                                 نسخ عناصر من السيرفر المصدر
                             </label>
                         </div>
                         <div class="checkbox-group">
-                            <label>
+                            <label title="وضع رولات البوتات في الأعلى عند النسخ">
                                 <input type="checkbox" id="botRolesOnTop" checked>
                                 وضع رولات البوتات في الأعلى (عند النسخ)
                             </label>
                         </div>
                         <p class="description" style="font-size: 0.9em; margin-top: 10px; color: #aaa;">
-                            <strong>هام:</strong> خيار النسخ يجب أن يكون مفعلاً لكي تعمل عملية النسخ.
+                            <strong><i class="fas fa-exclamation-circle"></i> هام:</strong> خيار النسخ يجب أن يكون مفعلاً لكي تعمل عملية النسخ.
                         </p>
                     </div>
                     
                     <div class="action-option-item">
-                        <h4><i class="fas fa-cogs"></i> خيارات مسح</h4>
+                        <h4><i class="fas fa-trash-alt"></i> خيارات مسح</h4>
                         <div class="checkbox-group">
-                            <label>
+                            <label title="مسح السيرفر الهدف قبل البدء في النسخ">
                                 <input type="checkbox" id="clearBeforeCopy" checked>
                                 مسح السيرفر الهدف قبل النسخ
                             </label>
                         </div>
                         <div class="checkbox-group">
-                            <label>
+                            <label title="نسخ صلاحيات رول @everyone من السيرفر المصدر">
                                 <input type="checkbox" id="copyEveryoneRole" checked>
                                 نسخ صلاحيات رول @everyone
                             </label>
                         </div>
                         <p class="description" style="font-size: 0.9em; margin-top: 10px; color: #aaa;">
-                            تفعيل خيار المسح سيؤدي إلى مسح العناصر الموجودة في السيرفر الهدف قبل البدء في النسخ
+                            <i class="fas fa-info-circle"></i> تفعيل خيار المسح سيؤدي إلى مسح العناصر الموجودة في السيرفر الهدف قبل البدء في النسخ
                         </p>
                     </div>
                 </div>
@@ -704,31 +1040,31 @@
             
             <!-- خيارات مسح الرولات (تظهر فقط إذا تم تفعيل المسح) -->
             <div class="clear-options" id="clearOptionsSection" style="display: block;">
-                <h3>خيارات المسح التفصيلية</h3>
+                <h3><i class="fas fa-sliders-h"></i> خيارات المسح التفصيلية</h3>
                 <p>اختر العناصر التي تريد مسحها من السيرفر الهدف:</p>
                 <div class="clear-options-grid">
                     <div class="clear-option-item">
-                        <input type="checkbox" id="clearRoles" checked>
+                        <input type="checkbox" id="clearRoles" checked title="مسح جميع الرولات الموجودة في السيرفر الهدف">
                         <label for="clearRoles">مسح الرولات الموجودة</label>
                     </div>
                     <div class="clear-option-item">
-                        <input type="checkbox" id="clearTextChannels" checked>
+                        <input type="checkbox" id="clearTextChannels" checked title="مسح قنوات الكتابة النصية">
                         <label for="clearTextChannels">مسح رومات الكتابة</label>
                     </div>
                     <div class="clear-option-item">
-                        <input type="checkbox" id="clearCategories" checked>
+                        <input type="checkbox" id="clearCategories" checked title="مسح التصنيفات (Categories)">
                         <label for="clearCategories">مسح الكاتيجوري</label>
                     </div>
                     <div class="clear-option-item">
-                        <input type="checkbox" id="clearVoiceChannels" checked>
+                        <input type="checkbox" id="clearVoiceChannels" checked title="مسح قنوات الصوت">
                         <label for="clearVoiceChannels">مسح رومات الفويس</label>
                     </div>
                     <div class="clear-option-item">
-                        <input type="checkbox" id="clearEmojis" checked>
+                        <input type="checkbox" id="clearEmojis" checked title="مسح الإيموجيز والملصقات">
                         <label for="clearEmojis">مسح الايموجهات</label>
                     </div>
                     <div class="clear-option-item">
-                        <input type="checkbox" id="skipCommunityChannels" checked>
+                        <input type="checkbox" id="skipCommunityChannels" checked title="عدم مسح القنوات الإلزامية للمجتمعات">
                         <label for="skipCommunityChannels">تخطى قنوات المجتمع الإلزامية</label>
                     </div>
                 </div>
@@ -742,40 +1078,70 @@
                 <div class="tool-item">
                     <h4><i class="fas fa-robot"></i> ترتيب رولات البوتات</h4>
                     <p class="tool-description">أداة منفصلة لترتيب رولات البوتات في الأعلى بدون نسخ أي عناصر</p>
-                    <button class="button-success" onclick="reorderBotRolesStandalone()" id="reorderBtn">ترتيب رولات البوتات في الأعلى</button>
+                    <button class="button-success" onclick="reorderBotRolesStandalone()" id="reorderBtn" title="ترتيب رولات البوتات في الأعلى">
+                        <i class="fas fa-sort-amount-up"></i> ترتيب رولات البوتات في الأعلى
+                    </button>
                     <div class="debug-info">
-                        <strong>ملاحظة:</strong> هذه الأداة تعمل على السيرفر الهدف فقط وتحتاج إلى صلاحية "Manage Roles"
+                        <strong><i class="fas fa-info-circle"></i> ملاحظة:</strong> هذه الأداة تعمل على السيرفر الهدف فقط وتحتاج إلى صلاحية "Manage Roles"
                     </div>
                 </div>
                 
                 <div class="tool-item">
                     <h4><i class="fas fa-eye"></i> عرض الرولات الحالية</h4>
                     <p class="tool-description">عرض جميع الرولات الموجودة في السيرفر الهدف مع تصنيفها</p>
-                    <button onclick="showCurrentRoles()" id="showRolesBtn">عرض الرولات الحالية</button>
+                    <button onclick="showCurrentRoles()" id="showRolesBtn" title="عرض جميع الرولات في السيرفر الهدف">
+                        <i class="fas fa-list"></i> عرض الرولات الحالية
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="flex-buttons">
-            <button id="connectBtn" onclick="connectToServers()">الاتصال بالسيرفرات وعرض العناصر</button>
-            <button id="startProcessBtn" onclick="startProcess()" disabled>بدء عملية النسخ</button>
-            <button id="stopBtn" onclick="stopProcess()" disabled class="button-danger">إيقاف العملية</button>
+            <button id="connectBtn" onclick="connectToServers()" title="الاتصال بالسيرفرات وجلب البيانات">
+                <i class="fas fa-plug"></i> الاتصال بالسيرفرات وعرض العناصر
+            </button>
+            <button id="startProcessBtn" onclick="startProcess()" disabled title="بدء عملية النسخ الكاملة">
+                <i class="fas fa-play"></i> بدء عملية النسخ
+            </button>
+            <button id="stopBtn" onclick="stopProcess()" disabled class="button-danger" title="إيقاف العملية الحالية">
+                <i class="fas fa-stop"></i> إيقاف العملية
+            </button>
         </div>
 
         <!-- تبويبات العناصر (تظهر فقط إذا تم تفعيل النسخ) -->
         <div class="tab-container" id="tabsSection" style="display: block;">
             <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="roles">الرولات</button>
-                <button class="tab-btn" data-tab="categories">الكاتجوريهات</button>
-                <button class="tab-btn" data-tab="channels">التشانلات</button>
-                <button class="tab-btn" data-tab="emojis">الإيموجيز</button>
-                <button class="tab-btn" data-tab="specific">عناصر محددة</button>
-                <button class="tab-btn" data-tab="current-roles">الرولات الحالية</button>
+                <button class="tab-btn active" data-tab="roles">
+                    <i class="fas fa-user-tag"></i> الرولات
+                </button>
+                <button class="tab-btn" data-tab="categories">
+                    <i class="fas fa-folder"></i> الكاتجوريهات
+                </button>
+                <button class="tab-btn" data-tab="channels">
+                    <i class="fas fa-hashtag"></i> التشانلات
+                </button>
+                <button class="tab-btn" data-tab="emojis">
+                    <i class="fas fa-smile"></i> الإيموجيز
+                </button>
+                <button class="tab-btn" data-tab="specific">
+                    <i class="fas fa-bullseye"></i> عناصر محددة
+                </button>
+                <button class="tab-btn" data-tab="current-roles">
+                    <i class="fas fa-list-alt"></i> الرولات الحالية
+                </button>
             </div>
 
             <div class="tab-content">
                 <div id="roles" class="tab-pane active">
-                    <h2>اختر الرولات المطلوبة</h2>
+                    <h2><i class="fas fa-user-tag"></i> اختر الرولات المطلوبة</h2>
+                    <div class="selection-controls">
+                        <button class="selection-btn select-all" onclick="toggleAllSelection('roles', true)">
+                            <i class="fas fa-check-double"></i> تحديد الكل
+                        </button>
+                        <button class="selection-btn deselect-all" onclick="toggleAllSelection('roles', false)">
+                            <i class="fas fa-times-circle"></i> إلغاء تحديد الكل
+                        </button>
+                    </div>
                     <div class="checkbox-group">
                         <label>
                             <input type="checkbox" id="selectAllRoles" onchange="toggleAllSelection('roles')">
@@ -783,15 +1149,23 @@
                         </label>
                     </div>
                     <div id="rolesList" class="item-list">
-                        <p>سيتم عرض الرولات هنا بعد الاتصال بالسيرفر...</p>
+                        <p><i class="fas fa-spinner fa-spin"></i> سيتم عرض الرولات هنا بعد الاتصال بالسيرفر...</p>
                     </div>
                     <div class="debug-info">
-                        <strong>ملاحظة:</strong> الرولات المدارية (البوتات) ستظهر بعلامة 🤖
+                        <strong><i class="fas fa-info-circle"></i> ملاحظة:</strong> الرولات المدارية (البوتات) ستظهر بعلامة 🤖
                     </div>
                 </div>
 
                 <div id="categories" class="tab-pane">
-                    <h2>اختر الكاتجوريهات المطلوبة</h2>
+                    <h2><i class="fas fa-folder"></i> اختر الكاتجوريهات المطلوبة</h2>
+                    <div class="selection-controls">
+                        <button class="selection-btn select-all" onclick="toggleAllSelection('categories', true)">
+                            <i class="fas fa-check-double"></i> تحديد الكل
+                        </button>
+                        <button class="selection-btn deselect-all" onclick="toggleAllSelection('categories', false)">
+                            <i class="fas fa-times-circle"></i> إلغاء تحديد الكل
+                        </button>
+                    </div>
                     <div class="checkbox-group">
                         <label>
                             <input type="checkbox" id="selectAllCategories" onchange="toggleAllSelection('categories')">
@@ -799,12 +1173,20 @@
                         </label>
                     </div>
                     <div id="categoriesList" class="item-list">
-                        <p>سيتم عرض الكاتجوريهات هنا بعد الاتصال بالسيرفر...</p>
+                        <p><i class="fas fa-spinner fa-spin"></i> سيتم عرض الكاتجوريهات هنا بعد الاتصال بالسيرفر...</p>
                     </div>
                 </div>
 
                 <div id="channels" class="tab-pane">
-                    <h2>اختر التشانلات المطلوبة</h2>
+                    <h2><i class="fas fa-hashtag"></i> اختر التشانلات المطلوبة</h2>
+                    <div class="selection-controls">
+                        <button class="selection-btn select-all" onclick="toggleAllSelection('channels', true)">
+                            <i class="fas fa-check-double"></i> تحديد الكل
+                        </button>
+                        <button class="selection-btn deselect-all" onclick="toggleAllSelection('channels', false)">
+                            <i class="fas fa-times-circle"></i> إلغاء تحديد الكل
+                        </button>
+                    </div>
                     <div class="checkbox-group">
                         <label>
                             <input type="checkbox" id="selectAllChannels" onchange="toggleAllSelection('channels')">
@@ -812,12 +1194,20 @@
                         </label>
                     </div>
                     <div id="channelsList" class="item-list">
-                        <p>سيتم عرض التشانلات هنا بعد الاتصال بالسيرفر...</p>
+                        <p><i class="fas fa-spinner fa-spin"></i> سيتم عرض التشانلات هنا بعد الاتصال بالسيرفر...</p>
                     </div>
                 </div>
 
                 <div id="emojis" class="tab-pane">
-                    <h2>اختر الإيموجيز المطلوبة</h2>
+                    <h2><i class="fas fa-smile"></i> اختر الإيموجيز المطلوبة</h2>
+                    <div class="selection-controls">
+                        <button class="selection-btn select-all" onclick="toggleAllSelection('emojis', true)">
+                            <i class="fas fa-check-double"></i> تحديد الكل
+                        </button>
+                        <button class="selection-btn deselect-all" onclick="toggleAllSelection('emojis', false)">
+                            <i class="fas fa-times-circle"></i> إلغاء تحديد الكل
+                        </button>
+                    </div>
                     <div class="checkbox-group">
                         <label>
                             <input type="checkbox" id="selectAllEmojis" onchange="toggleAllSelection('emojis')">
@@ -825,48 +1215,48 @@
                         </label>
                     </div>
                     <div id="emojisList" class="item-list">
-                        <p>سيتم عرض الإيموجيز هنا بعد الاتصال بالسيرفر...</p>
+                        <p><i class="fas fa-spinner fa-spin"></i> سيتم عرض الإيموجيز هنا بعد الاتصال بالسيرفر...</p>
                     </div>
                 </div>
 
                 <div id="specific" class="tab-pane">
-                    <h2>نسخ عناصر محددة بالإيدي</h2>
+                    <h2><i class="fas fa-bullseye"></i> نسخ عناصر محددة بالإيدي</h2>
                     <div class="specific-items">
                         <div class="input-group">
-                            <label for="specificCategories">أيدي الكاتجوريهات المطلوبة (افصل بينهم بفاصلة)</label>
+                            <label for="specificCategories"><i class="fas fa-folder"></i> أيدي الكاتجوريهات المطلوبة (افصل بينهم بفاصلة)</label>
                             <textarea id="specificCategories" placeholder="أدخل أيدي الكاتجوريهات المطلوبة، مثال: 123456789,987654321"></textarea>
                         </div>
                         <div class="input-group">
-                            <label for="specificChannels">أيدي التشانلات المطلوبة (افصل بينهم بفاصلة)</label>
+                            <label for="specificChannels"><i class="fas fa-hashtag"></i> أيدي التشانلات المطلوبة (افصل بينهم بفاصلة)</label>
                             <textarea id="specificChannels" placeholder="أدخل أيدي التشانلات المطلوبة، مثال: 123456789,987654321"></textarea>
                         </div>
                         <div class="input-group">
-                            <label for="specificRoles">أيدي الرولات المطلوبة (افصل بينهم بفاصلة)</label>
+                            <label for="specificRoles"><i class="fas fa-user-tag"></i> أيدي الرولات المطلوبة (افصل بينهم بفاصلة)</label>
                             <textarea id="specificRoles" placeholder="أدخل أيدي الرولات المطلوبة، مثال: 123456789,987654321"></textarea>
                         </div>
                         <div class="input-group">
-                            <label for="specificEmojis">أيدي الإيموجيز المطلوبة (افصل بينهم بفاصلة)</label>
+                            <label for="specificEmojis"><i class="fas fa-smile"></i> أيدي الإيموجيز المطلوبة (افصل بينهم بفاصلة)</label>
                             <textarea id="specificEmojis" placeholder="أدخل أيدي الإيموجيز المطلوبة، مثال: 123456789,987654321"></textarea>
                         </div>
                     </div>
                 </div>
 
                 <div id="current-roles" class="tab-pane">
-                    <h2>الرولات الحالية في السيرفر الهدف</h2>
+                    <h2><i class="fas fa-list-alt"></i> الرولات الحالية في السيرفر الهدف</h2>
                     <div class="flex-buttons">
-                        <button onclick="refreshCurrentRoles()" class="button-success">
+                        <button onclick="refreshCurrentRoles()" class="button-success" title="تحديث قائمة الرولات">
                             <i class="fas fa-sync-alt"></i> تحديث القائمة
                         </button>
-                        <button onclick="reorderCurrentBotRoles()" class="button-warning">
+                        <button onclick="reorderCurrentBotRoles()" class="button-warning" title="ترتيب رولات البوتات في الأعلى">
                             <i class="fas fa-sort-amount-up"></i> ترتيب البوتات في الأعلى
                         </button>
                     </div>
                     <div id="currentRolesList" class="item-list">
-                        <p>اضغط على "عرض الرولات الحالية" أو "تحديث القائمة" لعرض الرولات...</p>
+                        <p><i class="fas fa-info-circle"></i> اضغط على "عرض الرولات الحالية" أو "تحديث القائمة" لعرض الرولات...</p>
                     </div>
                     <div class="debug-info">
-                        <strong>إحصائيات:</strong>
-                        <div id="rolesStats">لم يتم تحميل الإحصائيات بعد</div>
+                        <strong><i class="fas fa-chart-bar"></i> إحصائيات:</strong>
+                        <div id="rolesStats"><i class="fas fa-spinner fa-spin"></i> لم يتم تحميل الإحصائيات بعد</div>
                     </div>
                 </div>
             </div>
@@ -877,15 +1267,22 @@
         </div>
 
         <div class="form-section">
-            <h2>سجل الأحداث</h2>
+            <h2><i class="fas fa-history"></i> سجل الأحداث</h2>
             <div id="logContainer" class="log-container">
-                <div class="log-entry log-info">مرحبًا! أدخل المعلومات المطلوبة واتصل بالسيرفرات للبدء.</div>
-                <div class="log-entry log-warning"><strong>تنبيه:</strong> تأكد من تفعيل خيار "نسخ عناصر من السيرفر المصدر" لكي تعمل عملية النسخ.</div>
+                <div class="log-entry log-info">
+                    <span class="status-indicator info"></span> مرحبًا! أدخل المعلومات المطلوبة واتصل بالسيرفرات للبدء.
+                </div>
+                <div class="log-entry log-warning">
+                    <span class="status-indicator warning"></span> <strong>تنبيه:</strong> تأكد من تفعيل خيار "نسخ عناصر من السيرفر المصدر" لكي تعمل عملية النسخ.
+                </div>
             </div>
         </div>
 
         <div class="copyright">
             © 2023 جميع الحقوق محفوظة @elbragely
+            <div style="margin-top: 10px; font-size: 0.8em; color: #666;">
+                <i class="fas fa-code"></i> تم تطوير الأداة بواسطة EL¹ ZET
+            </div>
         </div>
     </div>
 
@@ -923,6 +1320,20 @@
             // تفعيل زر عرض الرولات بعد الاتصال
             document.getElementById('showRolesBtn').disabled = true;
             document.getElementById('reorderBtn').disabled = true;
+            
+            // إضافة تأثيرات للعناصر المحددة
+            document.addEventListener('change', function(e) {
+                if (e.target.type === 'checkbox') {
+                    const itemEntry = e.target.closest('.item-entry');
+                    if (itemEntry) {
+                        if (e.target.checked) {
+                            itemEntry.classList.add('selected-item');
+                        } else {
+                            itemEntry.classList.remove('selected-item');
+                        }
+                    }
+                }
+            });
             
             // إضافة رسالة توضيحية
             addLog('خيار النسخ مفعل افتراضياً. يمكنك الآن الاتصال بالسيرفرات وبدء العملية.', 'success');
@@ -976,16 +1387,32 @@
         }
 
         // تبديل تحديد جميع العناصر في قائمة
-        function toggleAllSelection(type) {
+        function toggleAllSelection(type, forceValue = null) {
             const checkboxes = document.querySelectorAll(`#${type}List input[type="checkbox"]`);
             const selectAll = document.getElementById(`selectAll${type.charAt(0).toUpperCase() + type.slice(1)}`);
             
-            const isChecked = selectAll.checked;
+            let isChecked;
+            if (forceValue !== null) {
+                isChecked = forceValue;
+                selectAll.checked = isChecked;
+            } else {
+                isChecked = selectAll.checked;
+            }
+            
             checkboxes.forEach(checkbox => {
                 checkbox.checked = isChecked;
+                const itemEntry = checkbox.closest('.item-entry');
+                if (itemEntry) {
+                    if (isChecked) {
+                        itemEntry.classList.add('selected-item');
+                    } else {
+                        itemEntry.classList.remove('selected-item');
+                    }
+                }
             });
             
-            addLog(`تم ${isChecked ? 'تحديد' : 'إلغاء تحديد'} جميع ${getArabicTypeName(type)}`, 'info');
+            const action = isChecked ? 'تحديد' : 'إلغاء تحديد';
+            addLog(`تم ${action} جميع ${getArabicTypeName(type)}`, 'info');
         }
 
         // الحصول على الاسم العربي للنوع
@@ -1004,7 +1431,14 @@
             const logContainer = document.getElementById('logContainer');
             const logEntry = document.createElement('div');
             logEntry.classList.add('log-entry', `log-${type}`);
-            logEntry.textContent = message;
+            
+            // إضافة رمز الحالة
+            const indicator = document.createElement('span');
+            indicator.classList.add('status-indicator', type);
+            
+            logEntry.appendChild(indicator);
+            logEntry.appendChild(document.createTextNode(message));
+            
             logContainer.appendChild(logEntry);
             logContainer.scrollTop = logContainer.scrollHeight;
         }
@@ -1310,7 +1744,7 @@
                 const clearEmojis = document.getElementById('clearEmojis').checked;
                 const skipCommunityChannels = document.getElementById('skipCommunityChannels').checked;
                 
-                addLog(`خيارات المسح: الرولات=${clearRoles ? 'نعم' : 'لا'}, التشانلات=${clearTextChannels ? 'نعم' : 'لا'}, الكاتجوريهات=${clearCategories ? 'نعم' : 'لا'}`, 'info');
+                addLog(`خيارات المسح: الرولات=${clearRoles ? 'نعم ✓' : 'لا ✗'}, التشانلات=${clearTextChannels ? 'نعم ✓' : 'لا ✗'}, الكاتجوريهات=${clearCategories ? 'نعم ✓' : 'لا ✗'}`, 'info');
                 
                 let totalDeleted = 0;
                 let totalFailed = 0;
@@ -1948,10 +2382,10 @@
                 // عرض الإحصائيات
                 const statsDiv = document.getElementById('rolesStats');
                 statsDiv.innerHTML = `
-                    <div>إجمالي الرولات: ${allTargetRoles.length}</div>
-                    <div>رولات البوتات: ${botRoles.length}</div>
-                    <div>رولات عادية: ${normalRoles.length}</div>
-                    <div>رول @everyone: ${everyoneRole ? 'موجود ✓' : 'غير موجود ✗'}</div>
+                    <div>✓ إجمالي الرولات: ${allTargetRoles.length}</div>
+                    <div>🤖 رولات البوتات: ${botRoles.length}</div>
+                    <div>👤 رولات عادية: ${normalRoles.length}</div>
+                    <div>@ رول @everyone: ${everyoneRole ? 'موجود ✓' : 'غير موجود ✗'}</div>
                 `;
                 
                 // عرض الرولات في القائمة
